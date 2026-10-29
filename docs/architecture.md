@@ -30,13 +30,13 @@ outbound requests. The diagram does not imply an existing Backend API contract.
 | AI `api/v1/` | API versioning, router composition and process health |
 | AI `recommendation/` | Request/response schemas, HTTP endpoint and future recommendation logic |
 | AI `agent/` | Request/response schemas, HTTP endpoint and future shopping assistance; reserved prompts/tools directories |
-| AI `integrations/` | Reusable async HTTP client configuration for Backend |
+| AI `integrations/` | Reusable async Backend HTTP configuration and independent LLM connection layer |
 | AI `core/` | Environment settings and standard Python console logging |
 | AI `main.py` | Single application, lifecycle and entry point |
 
 Routers call feature service functions. Feature modules do not import each other.
-Services currently only construct placeholder responses. No additional repository,
-manager or abstract interface layer is needed at this stage.
+Services currently only construct placeholder responses. The LLM connection layer
+has a small provider-independent protocol, but feature services do not use it yet.
 
 ## Communication and lifecycle
 
@@ -46,9 +46,10 @@ manager or abstract interface layer is needed at this stage.
 4. Today the service returns `status: not_implemented` without any external call.
 5. Later, AI can request Backend-owned products/history through agreed HTTP APIs.
 
-The lifespan initializes logging and opens one HTTPX client pool. Constructing the
-pool does not contact Backend; shutdown closes it. Health is a liveness endpoint
-and does not claim that recommendations, an LLM, or Backend are operational.
+The lifespan initializes logging and opens separate Backend and LLM HTTPX pools.
+Constructing the pools makes no network calls; shutdown closes both. Health is a
+liveness endpoint and does not claim that recommendations, an LLM, or Backend are
+operational.
 
 The Backend client uses a configurable HTTP(S) base URL and positive timeout,
 reuses connections, and raises `httpx.HTTPStatusError` for non-success responses.
@@ -56,6 +57,23 @@ Timeouts and network failures remain `httpx.TimeoutException`/`httpx.RequestErro
 There are no automatic retries. When real calls are introduced, feature code must
 translate failures into an agreed API error response without exposing Backend
 payloads or credentials. No current feature endpoint uses this client.
+
+### LLM connection layer
+
+`integrations/llm/` separates the `LLMClient` protocol, typed text messages and
+responses, connection exceptions, and `OpenAICompatibleLLMClient` implementation.
+The adapter posts non-streaming Chat Completions requests using HTTPX and validates
+the provider envelope with Pydantic before returning an assistant response.
+Unrecognized provider metadata is ignored; invalid or non-text responses raise a
+controlled error. This boundary can be extended for tool calling in a later task.
+
+`create_llm_client()` is an async context manager that owns the adapter's HTTP
+pool. FastAPI exposes the adapter as `app.state.llm_client`; standalone callers
+can use the same context manager. API keys use `SecretStr`, and key/base URL/model
+are optional at startup but required before invocation. HTTP errors, network
+failures, timeouts and malformed responses map to provider-independent exceptions
+without raw provider bodies or credentials. There are no retries or redirects.
+The client does not call Backend, orchestrate an agent or change endpoint behavior.
 
 ## Deployment
 
@@ -74,7 +92,8 @@ public reverse proxy. Decide service authentication with Backend before release.
 
 - Recommendation service: personalized, search/view-based and similarity ranking
   once data access and evaluation requirements are agreed.
-- Agent service: provider integration and orchestration when a provider is chosen.
+- Agent service: consume the existing LLM protocol and add orchestration when a
+  concrete use case is agreed.
 - Agent prompts/tools: add only the prompts and Backend product tools required by
   the first implemented use case.
 - Backend integration: add concrete methods only after endpoint paths, payloads,

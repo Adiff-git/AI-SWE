@@ -7,7 +7,8 @@ The service runs without a Backend connection, database, model or LLM credential
 An independent async LLM client supports OpenAI-compatible Chat Completions APIs;
 the chat endpoint still returns its original placeholder without calling it.
 A separate shopping-agent core can produce bounded, advisory text through an
-injected LLM; it has no catalog tools or conversation persistence.
+injected LLM and read-only tool interfaces. Real catalog access is unavailable;
+there is no conversation persistence.
 
 The repository directory `AI-SWE/` corresponds to the proposed `ai-service/` root.
 
@@ -35,13 +36,13 @@ AI-SWE/
 │   │   ├── conversation.py
 │   │   ├── exceptions.py
 │   │   ├── prompts/{__init__,system,builder}.py
-│   │   └── tools/__init__.py
+│   │   └── tools/{__init__,schemas,provider,registry,products}.py
 │   ├── integrations/
 │   │   ├── backend_client.py
 │   │   └── llm/{__init__,client,schemas,exceptions}.py
 │   └── core/{config,logging}.py
-├── tests/{conftest,test_health,test_recommendation,test_agent,test_agent_core,test_config,test_llm_client,test_prompts}.py
-├── docs/{architecture,api-contracts,prompts}.md
+├── tests/  # API, configuration, LLM, prompts, registry and agent tests
+├── docs/{architecture,api-contracts,prompts,tools}.md
 ├── Dockerfile
 ├── compose.yaml
 ├── .dockerignore
@@ -58,7 +59,7 @@ schemas validate API data; service functions own future feature behavior.
 `core/` contains settings and logging, and `integrations/` owns Backend HTTP
 configuration and the independent LLM adapter. `agent/orchestrator.py` owns the
 independent core; `agent/conversation.py` defines its internal request/result
-contracts. `agent/tools/` contains only a metadata protocol for a future registry;
+contracts. `agent/tools/` contains typed read-only definitions and bounded dispatch;
 `agent/prompts/` owns the versioned Vietnamese-first system prompt and role-safe
 message assembly.
 
@@ -179,11 +180,12 @@ failures raise `LLMProviderError` (with `.status_code`), `LLMTimeoutError`,
 `LLMConnectionError`, or `LLMResponseError`. Messages omit credentials and raw
 provider bodies; requests are not retried and redirects are not followed.
 
-Only text messages with `system`, `user` and `assistant` roles are supported in
-this initial adapter. Streaming, tool calls, multimodal messages and conversation
-storage are future work. A tool-only or otherwise non-text
-response raises `LLMResponseError`. The `/api/v1/chat` route is still a placeholder;
-use the snippet above to test the LLM connection directly.
+`complete()` retains its text-only contract with system/user/assistant messages;
+a tool-only response still raises `LLMResponseError` on that path. The optional
+`ToolCallingLLMClient.complete_with_tools()` interface supports typed function calls
+and correlated tool-result messages on OpenAI-compatible providers. Streaming,
+multimodal messages and conversation storage are future work. The `/api/v1/chat`
+route is still a placeholder; use the snippet above to test the LLM connection.
 
 ## Shopping-agent foundation
 
@@ -230,20 +232,20 @@ exactly as an opaque identifier, not loaded, authenticated or persisted. Reusing
 session ID does not recover previous turns. The caller must supply history again.
 
 Processing is bounded to 20 history messages, a 4,000-character current message,
-32,000 total input characters including the system instruction, one LLM call,
+32,000 total input characters including the system instruction, one text-only LLM call,
 and 8,000 characters of model reply. The overall async invocation deadline defaults
 to 30 seconds (`ShoppingAgent(llm, timeout=...)`); it is distinct from HTTPX's
 per-operation `LLM_TIMEOUT`. Input is rejected rather than silently truncated.
 The reply limit is checked after generation, not a provider token budget.
 
 `AgentResult.answer` always includes a fixed Vietnamese catalog-unavailable notice,
-and `catalog_verified` is always `false`. System prompt version `1.0.0` requests
+and `catalog_verified` is always `false`. System prompt version `1.1.0` requests
 concise Vietnamese-first guidance and clarifying questions, with explicit grounding,
 privacy, instruction-priority and action limits. `prompts.build_messages()` creates
 separate system/user/assistant messages; it never interpolates user content into
 system policy. Prompt version/content are trusted code constants, not user input.
 See [prompt revisions and manual evaluation](docs/prompts.md) for examples,
-expected behavior and future tool-result boundaries.
+expected behavior and tool-result boundaries.
 This is unverified model advice: unit tests establish orchestration and output
 labeling, not factual accuracy or a guarantee against model hallucinations. Real
 product/price/stock claims require authoritative Backend data and further grounding
@@ -251,17 +253,34 @@ work before exposing the core through HTTP.
 
 Invalid input schemas raise Pydantic `ValidationError`; invalid history order or
 input budget raises `AgentInputError`. LLM failures map to `AgentLLMError`, invalid,
-oversized or incomplete replies to `AgentReplyError`, unsupported tools to
-`AgentCapabilityError`, and deadline expiry to `AgentTimeoutError`. These inherit
+oversized or incomplete replies to `AgentReplyError`, an unsupported LLM tool
+interface to `AgentCapabilityError`, tool/context bounds to `AgentLimitError`,
+and deadline expiry to `AgentTimeoutError`. These inherit
 `AgentError` from `agent.exceptions`; errors omit provider details and sensitive
 messages. There is no retry or automatic success fallback. Caller cancellation
 propagates normally.
 
-For SWE-68, `ToolRegistry.names()` is a metadata-only injection point. Only absent
-or empty registries are accepted; registered tools and LLM tool requests fail
-closed. There are no concrete tools, tool loops, Backend endpoints or business
-actions. The public `/api/v1/chat` response remains unchanged until a separate
-contract agrees its generated-answer shape and error mapping.
+### Read-only product tools — SWE-68
+
+`create_product_tools()` registers `search_products` and `get_product_details` with
+strict Pydantic arguments and generated JSON Schema. Its default provider always
+returns `not_available`; synthetic product providers exist only in tests. To opt
+into tools in the async example above, import `create_product_tools` from
+`ai_service.agent.tools` and use `ShoppingAgent(llm, tools=create_product_tools())`.
+The LLM provider must support Chat Completions function tools.
+
+Tool mode allows at most two rounds, two calls per reply, four total tool calls
+and three LLM calls. Calls execute sequentially with a five-second tool timeout
+and the same overall agent deadline. Arguments are bounded to 4 KiB, results to
+8 KiB, and search results to five products. The tool context budget also counts
+serialized call metadata, schemas and results. The final allowed LLM turn sets
+`tool_choice="none"`; further calls are rejected. Controlled errors can be returned
+to the LLM for correction within these limits.
+
+See [tool definitions, offline sample and SWE-69 boundary](docs/tools.md).
+There is no real Backend endpoint integration or cart/order/payment mutation.
+The public `/api/v1/chat` response remains unchanged until its generated-answer
+shape and error mapping are agreed.
 
 ## Docker
 
@@ -319,11 +338,14 @@ configuration failures, invalid responses, provider errors, timeouts and network
 failures; they use no real API keys or external services. To format source, run
 `uv run ruff format .`.
 Agent core tests additionally cover injected fakes, history isolation, concurrent
-turns, budgets, deadlines/cancellation, invalid replies and disabled tools while
+turns, budgets, deadlines/cancellation and invalid replies while
 rejecting outbound HTTP calls.
 Prompt tests check written guardrails and role-safe assembly with Vietnamese
 injection and price/stock questions. They do not evaluate a live model's compliance;
 the manual checklist records that separately.
+Tool tests cover schema/registry validation, fake product search/details, unknown
+tools, unavailable/missing/error outcomes, sanitized bounded results, recovery,
+call IDs, iteration limits and adapter request/response serialization.
 
 ## Integration and next steps
 
@@ -342,5 +364,7 @@ timeouts, session semantics and the final public contract before integration.
 
 See [architecture](docs/architecture.md) and
 [proposed API contracts](docs/api-contracts.md). The LLM connection layer and agent
-core are available independently; feature endpoints do not invoke them. No algorithms,
-conversation memory, product tools, database models or migrations exist yet.
+core are available independently; feature endpoints do not invoke them. Read-only
+product interfaces use fake/unavailable sources pending SWE-69 contract approval.
+No recommendation algorithms, conversation memory, database models or migrations
+exist yet.

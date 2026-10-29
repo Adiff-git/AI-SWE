@@ -345,7 +345,7 @@ def test_empty_tool_registry_is_supported() -> None:
     assert len(llm.calls) == 1
 
 
-def test_registered_tools_are_not_enabled() -> None:
+def test_registered_tools_require_tool_capable_llm() -> None:
     llm = FakeLLM(answer())
     with pytest.raises(AgentCapabilityError):
         ShoppingAgent(llm, tools=FakeRegistry(("product_search",)))

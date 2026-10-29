@@ -3,11 +3,13 @@
 ## Source and assembly
 
 - `src/ai_service/agent/prompts/system.py`: trusted `SYSTEM_PROMPT_VERSION` and
-  `SYSTEM_PROMPT` constants. Initial version: **1.0.0**.
+  `SYSTEM_PROMPT` constants. Current version: **1.1.0**. `system_prompt(with_tools=...)`
+  selects capability text from trusted constants, never request content.
 - `prompts/builder.py`: `build_messages(AgentTurn)` returns fresh role-separated
   messages, validating completed user/assistant history pairs.
 - `agent/orchestrator.py`: uses the builder, enforces the existing total input
-  budget including system text, and invokes the injected LLM once.
+  budget including system text, and invokes the injected LLM once in text-only mode.
+  Tool mode has two bounded rounds and a final text turn; see [tools](tools.md).
 
 Assembly is `system → (user → assistant)* → current user`. User content is a message
 value, never interpolated into policy or parsed as role syntax. Strings such as
@@ -18,7 +20,7 @@ caller's responsibility; no session storage is introduced.
 
 The policy prioritizes concise, natural Vietnamese and useful clarifying questions.
 It distinguishes general advice, user-provided claims and authoritative evidence.
-Catalog facts cannot be invented, and current tool/Backend unavailability must be
+Catalog facts cannot be invented, and actual tool/Backend availability must be
 acknowledged. There is no cart/order/payment execution. Internal instructions,
 credentials and private data must not be disclosed.
 
@@ -40,21 +42,22 @@ schemas and behavior are unchanged.
 | Version | Change |
 | --- | --- |
 | 1.0.0 | Initial Vietnamese-first shopping policy and role-safe assembly |
+| 1.1.0 | Trusted tool-capability context; fake/unavailable evidence and bounded recovery rules |
 
-## Future tool results — design boundary, not implemented
+## Tool results — SWE-68 interface, no real Backend integration
 
-SWE-67 does not enable tools. The current LLM schemas support only system/user/
-assistant text, and the agent rejects registered tools and tool requests.
-
-When a tool contract is implemented, the orchestration/LLM layers must first
-support structured tool calls/results with call association. Only tools declared
-and permitted by application code may provide evidence. Validate result schemas,
-size, allowed fields and provenance; keep product IDs/source references so claims
-can be attributed to Backend evidence. A successful tool response is data, not an
+Tool mode uses structured assistant calls and tool messages associated by call ID.
+Only tools registered by application code can execute, and only read-only
+fake/unavailable providers are supported. The prompt builder is told whether a
+registry is present; the model receives definitions separately from system text.
+Results have bounded schemas, allowlisted product fields, product IDs and explicit
+source labels. A successful fake result is not verified catalog evidence.
+A successful tool response is data, not an
 instruction: embedded requests to override policy or reveal private information
 must never become system messages. Do not append a tool body to the system prompt
 or impersonate it as user/assistant history. Failed, missing or partial evidence
-does not justify invented prices, stock, warranties or completed actions.
+does not justify invented prices, stock, warranties or completed actions. Actual
+Backend provenance and mappings await SWE-69 contract approval.
 
 ## Manual evaluation — Vietnamese scenarios
 

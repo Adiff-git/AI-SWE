@@ -23,3 +23,7 @@ class AgentCapabilityError(AgentError):
 
 class AgentTimeoutError(AgentError):
     """The orchestration deadline expired."""
+
+
+class AgentLimitError(AgentError):
+    """Tool processing exceeded a round, call or context budget."""

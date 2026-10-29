@@ -91,7 +91,7 @@ including when requests share a session ID; IDs are opaque metadata, never an
 authorization or persistence mechanism. Caller-supplied system messages are not
 accepted. Callers remain responsible for selecting authorized history.
 
-The core allows one LLM call, no retries or tool loop, a default 30-second overall
+The core without tools allows one LLM call, no retries, a default 30-second overall
 async deadline, 20 history messages, 4,000 characters in the current message,
 32,000 input characters including system context and 8,000 model-reply characters.
 Budgets reject excess input/replies rather than truncating them. Reply size is a
@@ -107,16 +107,41 @@ notice, and `catalog_verified` is always false. This labels advice as unverified
 it does not prove model factuality. Grounded product/price/stock answers require
 authoritative Backend tools and separate evaluation before public integration.
 
-For SWE-68, `agent/tools/ToolRegistry` exposes only `names()` for capability
-discovery. The constructor accepts an absent or empty registry and rejects any
-registered tool. LLM tool requests are rejected, not executed. Tool definitions,
-arguments, authorization and execution remain future work. Deterministic fake-based
-tests verify these boundaries without any Backend or provider HTTP request.
+### Read-only tool calling — SWE-68
+
+`ToolRegistry` exposes names, generated definitions and validated async dispatch.
+`create_product_tools(provider)` registers `search_products` and `get_product_details`
+against an injected `ProductProvider`. Without a provider it returns explicit
+`not_available` results. Only fake/unavailable sources are supported in this phase;
+no Backend URLs, database access or business actions are implemented.
+
+`LLMClient.complete()` retains its text-only contract. The optional
+`ToolCallingLLMClient.complete_with_tools()` adds typed assistant function calls and
+tool-result messages associated by call ID. The HTTPX adapter serializes these to
+Chat Completions tools. Tool-mode response envelopes are capped at 64 KiB before
+JSON validation; this is a post-download check, not a streaming transport limit.
+
+With a nonempty registry, the agent makes at most two tool rounds and three LLM
+calls, with at most two calls per reply and four calls total. Execution is
+sequential; each tool has a five-second default timeout within the overall agent
+deadline. The final model turn forbids tools. Duplicate/replayed call IDs,
+inconsistent replies and exceeded budgets stop processing. Registry errors are
+bounded structured tool results, allowing correction without unbounded retries.
+Tool-mode context accounting includes serialized schemas, arguments, IDs and results.
+
+Only allowlisted product fields are returned. Arguments are at most 4 KiB; results
+at most 8 KiB; search is limited to five products. Product text and specifications
+have size/control-character validation; extra provider fields are discarded.
+Free text remains untrusted data, not a semantic prompt-injection filter. Error
+payloads contain fixed codes, never exception details. Fake data does not change
+`catalog_verified=False` or the catalog-unavailable notice. See [tools](tools.md)
+for the provider boundary to implement after SWE-69 approval.
 
 ### Prompt structure
 
 `agent/prompts/system.py` defines `SYSTEM_PROMPT_VERSION` and a concise Vietnamese-first
-`SYSTEM_PROMPT`. It covers needs discovery, explanation and evidence-based comparisons,
+`SYSTEM_PROMPT`. Version 1.1.0 selects trusted no-tool/tool-capable context through
+`system_prompt(with_tools=...)`. It covers needs discovery, explanation and evidence-based comparisons,
 grounding, unavailable capabilities, privacy, permitted actions and untrusted input.
 `prompts/builder.py:build_messages()` validates history order and constructs fresh
 `LLMMessage` objects: one trusted system message, completed user/assistant pairs,
@@ -126,9 +151,9 @@ checks its existing total input budget after assembly, including the system prom
 
 The prompt is configured in trusted source constants and versioned in Git; there
 is no prompt framework, runtime template engine or user-selectable system policy.
-Tool results are not supported yet. Their future incorporation must preserve
-structured roles, source attribution and the distinction between untrusted data
-and system instructions; see [prompt guidance](prompts.md). Unit tests check policy
+Tool results are appended under the tool role with call association and source
+labels, preserving the distinction between untrusted data and system instructions;
+see [prompt guidance](prompts.md). Unit tests check policy
 presence and assembly, while the documented manual evaluation checks live model
 behavior separately. The chat HTTP contract remains the existing placeholder.
 

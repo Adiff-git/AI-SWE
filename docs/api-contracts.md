@@ -86,6 +86,14 @@ HTTP responses yet. Enabling generated answers requires a separate agreement on
 success/error shapes, authorized history and grounding; the current route, schema,
 fixed message and status remain unchanged.
 
+SWE-68 adds internal read-only `search_products` and `get_product_details` tool
+definitions and a bounded tool-calling loop. These are not new HTTP routes or
+confirmed Backend endpoints. The default source is unavailable; test sources are
+explicitly fake. Product DTOs, filters, price/currency representation and error
+codes are internal contracts only. Real integration remains blocked on SWE-69
+approval of Backend paths, authorization, payloads and failure semantics. See
+[tool interfaces](tools.md) for the proposed provider mapping boundary.
+
 ## Validation and error boundary
 
 Both POST endpoints return FastAPI HTTP 422 validation responses for missing,

@@ -1,13 +1,34 @@
-"""Metadata-only injection boundary for a future SWE-68 tool registry."""
+"""Typed read-only product tools, with no assumed Backend integration."""
 
-from typing import Protocol
+from ai_service.agent.tools.products import create_product_tools
+from ai_service.agent.tools.provider import (
+    ProductProvider,
+    ProductProviderUnavailable,
+    UnavailableProductProvider,
+)
+from ai_service.agent.tools.registry import Tool, ToolRegistry
+from ai_service.agent.tools.schemas import (
+    Price,
+    Product,
+    ProductDetailsArgs,
+    ProductDetailsData,
+    ProductSearchData,
+    SearchProductsArgs,
+    ToolResult,
+)
 
-
-class ToolRegistry(Protocol):
-    def names(self) -> tuple[str, ...]:
-        """List registered capabilities without executing a tool.
-
-        SWE-66 accepts only an empty registry. Tool definitions, argument schemas
-        and execution will be agreed separately; this interface grants no access.
-        """
-        ...
+__all__ = [
+    "Price",
+    "Product",
+    "ProductDetailsArgs",
+    "ProductDetailsData",
+    "ProductProvider",
+    "ProductProviderUnavailable",
+    "ProductSearchData",
+    "SearchProductsArgs",
+    "Tool",
+    "ToolRegistry",
+    "ToolResult",
+    "UnavailableProductProvider",
+    "create_product_tools",
+]

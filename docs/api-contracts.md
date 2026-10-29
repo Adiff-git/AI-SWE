@@ -74,7 +74,17 @@ Current HTTP 200 response:
 The message is a fixed capability notice, not an AI-generated answer. A supplied
 session ID is echoed only: no session is created, authenticated, loaded or stored.
 Future response fields, product references, session ownership, retention and
-streaming decisions need agreement. There is no LLM, RAG or product search today.
+streaming decisions need agreement. This endpoint does not invoke an LLM, RAG or
+product search.
+
+SWE-66 adds an independent `ShoppingAgent` core that can call the SWE-65 LLM
+interface. Its internal `AgentTurn`/`AgentResult` models are not new HTTP payloads.
+The core uses caller-supplied request-local history, echoes an opaque session ID
+without storing it, and returns advisory text explicitly labeled as unverified
+because catalog access is unavailable. Its exception hierarchy is not mapped to
+HTTP responses yet. Enabling generated answers requires a separate agreement on
+success/error shapes, authorized history and grounding; the current route, schema,
+fixed message and status remain unchanged.
 
 ## Validation and error boundary
 

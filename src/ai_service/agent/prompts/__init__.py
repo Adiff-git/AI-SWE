@@ -1,1 +1,1 @@
-"""Reserved for future prompts; no LLM is configured."""
+"""Reserved for future prompt design; the agent core has only a capability instruction."""

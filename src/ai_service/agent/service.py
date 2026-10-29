@@ -1,4 +1,4 @@
-"""Shopping agent boundary without LLM calls, tools or conversation storage."""
+"""Public chat placeholder; the independent orchestrator is not wired to HTTP."""
 
 from ai_service.agent.schemas import ChatRequest, ChatResponse
 

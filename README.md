@@ -34,14 +34,14 @@ AI-SWE/
 │   │   ├── orchestrator.py
 │   │   ├── conversation.py
 │   │   ├── exceptions.py
-│   │   ├── prompts/__init__.py
+│   │   ├── prompts/{__init__,system,builder}.py
 │   │   └── tools/__init__.py
 │   ├── integrations/
 │   │   ├── backend_client.py
 │   │   └── llm/{__init__,client,schemas,exceptions}.py
 │   └── core/{config,logging}.py
-├── tests/{conftest,test_health,test_recommendation,test_agent,test_agent_core,test_config,test_llm_client}.py
-├── docs/{architecture,api-contracts}.md
+├── tests/{conftest,test_health,test_recommendation,test_agent,test_agent_core,test_config,test_llm_client,test_prompts}.py
+├── docs/{architecture,api-contracts,prompts}.md
 ├── Dockerfile
 ├── compose.yaml
 ├── .dockerignore
@@ -59,7 +59,8 @@ schemas validate API data; service functions own future feature behavior.
 configuration and the independent LLM adapter. `agent/orchestrator.py` owns the
 independent core; `agent/conversation.py` defines its internal request/result
 contracts. `agent/tools/` contains only a metadata protocol for a future registry;
-the prompts directory is reserved for future prompt design.
+`agent/prompts/` owns the versioned Vietnamese-first system prompt and role-safe
+message assembly.
 
 ## Local setup and run
 
@@ -204,10 +205,10 @@ async def ask_agent():
     async with create_llm_client(get_settings()) as llm:
         result = await ShoppingAgent(llm).respond(
             AgentTurn(
-                message="Mostly programming and travel.",
+                message="Chủ yếu học lập trình và mang đi học hằng ngày.",
                 history=(
-                    ConversationMessage(role="user", content="Help me choose a laptop."),
-                    ConversationMessage(role="assistant", content="What will you use it for?"),
+                    ConversationMessage(role="user", content="Tư vấn laptop giúp mình."),
+                    ConversationMessage(role="assistant", content="Bạn dùng máy cho việc gì?"),
                 ),
                 session_id="opaque-example",
             )
@@ -235,9 +236,14 @@ to 30 seconds (`ShoppingAgent(llm, timeout=...)`); it is distinct from HTTPX's
 per-operation `LLM_TIMEOUT`. Input is rejected rather than silently truncated.
 The reply limit is checked after generation, not a provider token budget.
 
-`AgentResult.answer` always includes a fixed catalog-unavailable notice, and
-`catalog_verified` is always `false`. The capability instruction requests general
-guidance and clarifying questions, without invented or verified catalog facts.
+`AgentResult.answer` always includes a fixed Vietnamese catalog-unavailable notice,
+and `catalog_verified` is always `false`. System prompt version `1.0.0` requests
+concise Vietnamese-first guidance and clarifying questions, with explicit grounding,
+privacy, instruction-priority and action limits. `prompts.build_messages()` creates
+separate system/user/assistant messages; it never interpolates user content into
+system policy. Prompt version/content are trusted code constants, not user input.
+See [prompt revisions and manual evaluation](docs/prompts.md) for examples,
+expected behavior and future tool-result boundaries.
 This is unverified model advice: unit tests establish orchestration and output
 labeling, not factual accuracy or a guarantee against model hallucinations. Real
 product/price/stock claims require authoritative Backend data and further grounding
@@ -315,6 +321,9 @@ failures; they use no real API keys or external services. To format source, run
 Agent core tests additionally cover injected fakes, history isolation, concurrent
 turns, budgets, deadlines/cancellation, invalid replies and disabled tools while
 rejecting outbound HTTP calls.
+Prompt tests check written guardrails and role-safe assembly with Vietnamese
+injection and price/stock questions. They do not evaluate a live model's compliance;
+the manual checklist records that separately.
 
 ## Integration and next steps
 

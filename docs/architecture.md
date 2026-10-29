@@ -85,8 +85,8 @@ placeholder, preserving the current API response and error contract.
 
 `AgentTurn` and `ConversationMessage` in `agent/conversation.py` are internal,
 immutable per-request contracts. History consists of completed user/assistant
-pairs, followed by the current user message. The agent prepends a controlled
-system instruction and copies messages for each call. It stores no history,
+pairs, followed by the current user message. The prompt builder prepends a trusted,
+versioned system prompt and copies messages for each call. It stores no history,
 including when requests share a session ID; IDs are opaque metadata, never an
 authorization or persistence mechanism. Caller-supplied system messages are not
 accepted. Callers remain responsible for selecting authorized history.
@@ -101,7 +101,7 @@ unsupported capabilities and deadline expiry have controlled agent exceptions.
 Cancellation from the caller is preserved. The core does not log messages or
 provider details.
 
-Without catalog access, the instruction requests general guidance and clarifying
+Without catalog access, the system prompt requests general guidance and clarifying
 questions. Every `AgentResult.answer` has a fixed unavailable/unverified catalog
 notice, and `catalog_verified` is always false. This labels advice as unverified;
 it does not prove model factuality. Grounded product/price/stock answers require
@@ -110,10 +110,27 @@ authoritative Backend tools and separate evaluation before public integration.
 For SWE-68, `agent/tools/ToolRegistry` exposes only `names()` for capability
 discovery. The constructor accepts an absent or empty registry and rejects any
 registered tool. LLM tool requests are rejected, not executed. Tool definitions,
-arguments, authorization and execution remain future work. The prompts package
-is reserved; the core contains only a minimal capability instruction, not a prompt
-management framework. Deterministic fake-based tests verify these boundaries
-without any Backend or provider HTTP request.
+arguments, authorization and execution remain future work. Deterministic fake-based
+tests verify these boundaries without any Backend or provider HTTP request.
+
+### Prompt structure
+
+`agent/prompts/system.py` defines `SYSTEM_PROMPT_VERSION` and a concise Vietnamese-first
+`SYSTEM_PROMPT`. It covers needs discovery, explanation and evidence-based comparisons,
+grounding, unavailable capabilities, privacy, permitted actions and untrusted input.
+`prompts/builder.py:build_messages()` validates history order and constructs fresh
+`LLMMessage` objects: one trusted system message, completed user/assistant pairs,
+and the current user message. User content is never formatted into system text or
+parsed for role markers. Session IDs remain outside model context. The orchestrator
+checks its existing total input budget after assembly, including the system prompt.
+
+The prompt is configured in trusted source constants and versioned in Git; there
+is no prompt framework, runtime template engine or user-selectable system policy.
+Tool results are not supported yet. Their future incorporation must preserve
+structured roles, source attribution and the distinction between untrusted data
+and system instructions; see [prompt guidance](prompts.md). Unit tests check policy
+presence and assembly, while the documented manual evaluation checks live model
+behavior separately. The chat HTTP contract remains the existing placeholder.
 
 ## Deployment
 

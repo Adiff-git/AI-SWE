@@ -21,6 +21,7 @@ from ai_service.agent.exceptions import (
     AgentTimeoutError,
 )
 from ai_service.agent.orchestrator import ShoppingAgent
+from ai_service.agent.prompts import SYSTEM_PROMPT
 from ai_service.integrations.llm import (
     AssistantMessage,
     LLMConfigurationError,
@@ -75,9 +76,7 @@ def test_basic_turn() -> None:
     assert len(llm.calls) == 1
     assert [m.role for m in llm.calls[0]] == ["system", "user"]
     assert llm.calls[0][-1].content == "Help me choose a laptop"
-    policy = llm.calls[0][0].content
-    assert "Catalog and Backend access are unavailable" in policy
-    assert "Do not invent" in policy
+    assert llm.calls[0][0].content == SYSTEM_PROMPT
 
 
 def test_caller_owned_history_and_opaque_session() -> None:

@@ -7,8 +7,8 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 from ai_service.integrations.llm import LLMMessage
 
 CATALOG_NOTICE = (
-    "Catalog access is unavailable. This is unverified general guidance, not confirmed "
-    "product, price or availability information."
+    "Chưa thể truy cập catalog để kiểm tra. Đây là tư vấn chung chưa được xác minh, "
+    "không phải thông tin đã xác nhận về sản phẩm, giá hoặc tồn kho."
 )
 
 

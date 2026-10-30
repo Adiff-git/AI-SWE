@@ -123,6 +123,14 @@ No test uses a real API key or external network service.
 
 ## Future Backend provider — after SWE-69 approval
 
+The [SWE-69 contract proposal](backend-api-contract-proposal.md) is a **draft**, not
+that approval. All [Backend Team decisions](backend-api-contract-proposal.md#8-decision-needed-from-backend-team)
+remain pending. Its decimal-string prices, availability/evidence fields, cursor
+metadata and HTTP failures are not implemented by the current tool DTOs. The draft
+[gap table and integration test plan](backend-api-contract-proposal.md#9-implementation-gaps-and-short-integration-test-plan)
+identify the required follow-up; merely creating this document must not change
+sources to `backend`, mark catalog facts verified or enable endpoint requests.
+
 Keep the `ProductProvider` injection boundary. After the Backend contract is
 approved, implement its async search/details methods using the existing shared
 Backend HTTP client with the agreed paths, HTTP methods, service auth, visibility,

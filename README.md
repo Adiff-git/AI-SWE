@@ -42,7 +42,7 @@ AI-SWE/
 │   │   └── llm/{__init__,client,schemas,exceptions}.py
 │   └── core/{config,logging}.py
 ├── tests/  # API, configuration, LLM, prompts, registry and agent tests
-├── docs/{architecture,api-contracts,prompts,tools}.md
+├── docs/  # CURRENT API contracts, SWE-69 proposal/schema, architecture, prompts and tools
 ├── Dockerfile
 ├── compose.yaml
 ├── .dockerignore
@@ -348,6 +348,14 @@ tools, unavailable/missing/error outcomes, sanitized bounded results, recovery,
 call IDs, iteration limits and adapter request/response serialization.
 
 ## Integration and next steps
+
+The [SWE-69 Agent–Backend Integration Contract](docs/backend-api-contract-proposal.md)
+is a review-ready **DRAFT / PROPOSED**, with schema-checked synthetic examples and
+a [Decision Needed From Backend Team table](docs/backend-api-contract-proposal.md#8-decision-needed-from-backend-team).
+It does not approve Backend paths or change the current chat placeholder. See
+[CURRENT API behavior](docs/api-contracts.md) separately from future success/error
+payloads. Auth, pagination, money, availability and HTTP mapping still require
+agreement and implementation; cart/order/payment mutation is outside the MVP.
 
 The application lifespan owns a reusable Backend `httpx.AsyncClient`, exposed as
 `app.state.backend_client`, and a separate LLM HTTP pool through

@@ -59,6 +59,13 @@ There are no automatic retries. When real calls are introduced, feature code mus
 translate failures into an agreed API error response without exposing Backend
 payloads or credentials. No current feature endpoint uses this client.
 
+The [SWE-69 Agent–Backend contract proposal](backend-api-contract-proposal.md) and
+[draft payload schema](schemas/backend-api-contract-proposal.schema.json) describe
+a review target, not deployed Backend routes or approved changes. Auth, route
+mapping, correlation, budgets and generated chat/error responses still require
+both teams' agreement and implementation. CURRENT placeholder behavior remains
+authoritative; the proposal does not enable a real product provider.
+
 ### LLM connection layer
 
 `integrations/llm/` separates the `LLMClient` protocol, typed text messages and
@@ -66,7 +73,7 @@ responses, connection exceptions, and `OpenAICompatibleLLMClient` implementation
 The adapter posts non-streaming Chat Completions requests using HTTPX and validates
 the provider envelope with Pydantic before returning an assistant response.
 Unrecognized provider metadata is ignored; invalid or non-text responses raise a
-controlled error. This boundary can be extended for tool calling in a later task.
+controlled error. Tool calling uses the separate optional interface described below.
 
 `create_llm_client()` is an async context manager that owns the adapter's HTTP
 pool. FastAPI exposes the adapter as `app.state.llm_client`; standalone callers

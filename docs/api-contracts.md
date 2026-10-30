@@ -1,13 +1,17 @@
-# API contracts — scaffold and proposals
+# API contracts — CURRENT behavior and proposed integration
 
-These AI payloads are implemented **proposals**, pending agreement with the
-Backend Team. Future Backend capabilities below are proposals only: paths,
-methods, schemas and availability have not been confirmed.
+The routes and placeholder payloads labeled **CURRENT** below are implemented.
+They are not completed recommendation/chat features. Future Backend integration
+is **PROPOSED**, not deployed or approved. See the review-ready
+[SWE-69 Agent–Backend Integration Contract](backend-api-contract-proposal.md), its
+[draft schema](schemas/backend-api-contract-proposal.schema.json), and the
+[Decision Needed From Backend Team table](backend-api-contract-proposal.md#8-decision-needed-from-backend-team).
+Creating this proposal does not enable live Backend access or replace CURRENT APIs.
 
 All current routes use JSON. Interactive schema documentation is at `/docs`,
 with the generated contract at `/openapi.json`.
 
-## Health
+## Health — CURRENT
 
 `GET /api/v1/health` returns HTTP 200:
 
@@ -17,7 +21,7 @@ with the generated contract at `/openapi.json`.
 
 This checks application liveness only, with no external dependency checks.
 
-## Recommendations
+## Recommendations — CURRENT placeholder
 
 `POST /api/v1/recommendations`
 
@@ -48,7 +52,7 @@ Real identifiers, ordering/ranking, eligibility (stock/promotions), response
 status fields, cold-start behavior and failure semantics require team agreement.
 The current literal status schema must change when actual functionality is added.
 
-## Chat
+## Chat — CURRENT placeholder
 
 `POST /api/v1/chat`
 
@@ -94,7 +98,7 @@ codes are internal contracts only. Real integration remains blocked on SWE-69
 approval of Backend paths, authorization, payloads and failure semantics. See
 [tool interfaces](tools.md) for the proposed provider mapping boundary.
 
-## Validation and error boundary
+## Validation and error boundary — CURRENT
 
 Both POST endpoints return FastAPI HTTP 422 validation responses for missing,
 malformed, out-of-range or unexpected input. Clients should use `detail` entries
@@ -109,24 +113,24 @@ empty product data on failure.
 
 ## Proposed Backend capabilities — not existing endpoints
 
-| Capability | Proposed input | Proposed data needed | Agreement required |
-| --- | --- | --- | --- |
-| Product search | Query, category, price/spec filters, pagination | Product IDs, names, relevant attributes and current price/availability | Paths/methods, filter syntax, pagination and visibility |
-| Product details | Product ID | Name, category, description, image/link, price and availability | Identifier format, currency and missing/hidden products |
-| Product specifications | Product ID | Structured specification names, values and units | Category schemas, normalized units and missing values |
-| User search history | Authorized user ID, time window, pagination | Query text, timestamp and applied filters | Consent, retention, access scope and data minimization |
-| User interaction history | Authorized user ID, time window, pagination | Product ID, event type and timestamp | Event taxonomy, deduplication, retention and access scope |
+| Capability | Scope/status | Proposal and agreement required |
+| --- | --- | --- |
+| Product search/filter | PROPOSED read-only MVP | Query/category, explicit currency/price bounds, cursor pagination, visibility and authoritative product fields |
+| Product details/specifications | PROPOSED read-only MVP | Opaque product/variant IDs, price representation, availability/freshness and bounded specs in details |
+| Personalized recommendations | Deferred beyond catalog MVP | Agreed use case, product eligibility/ranking and authorized subject/data contract; CURRENT recommendation route stays a placeholder |
+| User search/interaction history | Deferred beyond catalog MVP | Explicit justification, Backend authorization, consent, minimal fields and retention; no new user-data route proposed |
 
-Specifications may be part of product details; separate endpoints are not required.
-Backend remains the source of truth and owns history collection and business
-authorization. AI neither records replacement business tables nor connects to
-Backend's database.
+The [SWE-69 draft](backend-api-contract-proposal.md) is the canonical future proposal
+for paths, fields, schemas, examples and error mappings. Its example paths are not
+existing Backend endpoints. Specifications are proposed inside details. Backend
+remains the source of truth and owns history collection/business authorization;
+AI neither records replacement business tables nor connects to Backend's database.
 
 ## Decisions to agree before implementation
 
-- Service URL/port and API version, service authentication and authorization context.
-- Product/user identifiers, data schemas, pagination and history access policies.
-- Recommendation success/empty/error response and ranking/stock expectations.
-- Chat output schema, whether sessions are needed, ownership and retention.
-- Request budgets, rate limits and HTTP error mapping; retries only when justified.
-- AI Team's initial use cases, evaluation data/metrics and eventual provider/model.
+All D01–D15 decisions in the
+[Backend Team decision table](backend-api-contract-proposal.md#8-decision-needed-from-backend-team)
+are pending. In particular, draft chat success/error envelopes, service auth,
+correlation IDs, 3-second Backend read budget and HTTP 503 for required catalog
+timeouts are proposals, not CURRENT behavior. The draft also records implementation
+gaps between SWE-68 DTOs and the target contract, plus an integration test plan.

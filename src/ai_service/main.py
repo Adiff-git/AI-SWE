@@ -11,6 +11,7 @@ from ai_service.api.v1.router import router
 from ai_service.core.config import get_settings
 from ai_service.core.logging import configure_logging
 from ai_service.integrations.backend_client import create_backend_client
+from ai_service.integrations.llm import create_llm_client
 
 settings = get_settings()
 logger = logging.getLogger(__name__)
@@ -19,8 +20,12 @@ logger = logging.getLogger(__name__)
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     configure_logging(settings.log_level)
-    async with create_backend_client(settings) as backend_client:
+    async with (
+        create_backend_client(settings) as backend_client,
+        create_llm_client(settings) as llm_client,
+    ):
         app.state.backend_client = backend_client
+        app.state.llm_client = llm_client
         logger.info("Starting %s (environment=%s)", settings.app_name, settings.app_env)
         yield
     logger.info("Stopped %s", settings.app_name)

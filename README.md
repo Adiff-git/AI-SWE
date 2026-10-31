@@ -4,6 +4,8 @@ Initial AI repository for our university electronics e-commerce project. One
 FastAPI application contains two independent feature modules: product
 recommendation and an AI shopping agent. **Both features are placeholders.**
 The service runs without a Backend connection, database, model or LLM credentials.
+An independent async LLM client supports OpenAI-compatible Chat Completions APIs;
+the chat endpoint still returns its original placeholder without calling it.
 
 The repository directory `AI-SWE/` corresponds to the proposed `ai-service/` root.
 
@@ -29,9 +31,11 @@ AI-SWE/
 │   │   ├── service.py
 │   │   ├── prompts/__init__.py
 │   │   └── tools/__init__.py
-│   ├── integrations/backend_client.py
+│   ├── integrations/
+│   │   ├── backend_client.py
+│   │   └── llm/{__init__,client,schemas,exceptions}.py
 │   └── core/{config,logging}.py
-├── tests/{conftest,test_health,test_recommendation,test_agent}.py
+├── tests/{conftest,test_health,test_recommendation,test_agent,test_config,test_llm_client}.py
 ├── docs/{architecture,api-contracts}.md
 ├── Dockerfile
 ├── compose.yaml
@@ -47,7 +51,8 @@ AI-SWE/
 Every Python package directory includes `__init__.py`. Routers handle HTTP;
 schemas validate API data; service functions own future feature behavior.
 `core/` contains settings and logging, and `integrations/` owns Backend HTTP
-configuration. Prompts and tools directories are reserved and contain no logic.
+configuration and the independent LLM adapter. Prompts and tools directories are
+reserved and contain no logic.
 
 ## Local setup and run
 
@@ -100,9 +105,77 @@ Settings are cached for the process; restart after editing configuration.
 | `LOG_LEVEL` | `INFO` | DEBUG, INFO, WARNING, ERROR or CRITICAL |
 | `BACKEND_API_BASE_URL` | `http://localhost:8000` | Backend HTTP(S) base URL |
 | `BACKEND_API_TIMEOUT` | `10` | Positive timeout in seconds for HTTPX operations |
+| `LLM_API_KEY` | Unset | Provider API key, required only when invoking the LLM |
+| `LLM_BASE_URL` | Unset | HTTP(S) API root, e.g. `https://api.openai.com/v1` |
+| `LLM_MODEL` | Unset | Provider-specific model identifier |
+| `LLM_TIMEOUT` | `30` | Positive, finite timeout in seconds per HTTPX network operation |
 
 Never commit credentials. `.env` files are ignored by Git and excluded from the
-Docker build context. No credentials are currently needed.
+Docker build context. Credentials are optional for startup and all existing API
+endpoints. Blank LLM settings are treated as unset; incomplete configuration raises
+`LLMConfigurationError` only when `complete()` is called. Invalid nonempty URLs or
+timeouts are configuration validation errors. The API key uses Pydantic
+`SecretStr`; do not log raw credentials, headers or provider response bodies.
+
+## LLM connection test
+
+The client uses HTTPX directly, without a provider SDK or orchestration framework.
+`LLMClient` is a provider-independent protocol; `OpenAICompatibleLLMClient` sends
+non-streaming text conversations to `{LLM_BASE_URL}/chat/completions` and returns a
+validated `LLMResponse` with `.message`, `.model` and `.finish_reason`. The base URL
+must include any provider API prefix (such as `/v1`), **not** `/chat/completions`.
+Either form with or without a trailing slash works.
+
+For a real connection test, run `uv sync --locked`, copy `.env.example` to `.env`
+if needed, then set these values in `.env` using your provider's credentials and
+an available Chat Completions model:
+
+```dotenv
+LLM_API_KEY=replace-with-your-provider-key
+LLM_BASE_URL=https://api.openai.com/v1
+LLM_MODEL=replace-with-an-available-model-id
+LLM_TIMEOUT=30
+```
+
+From the repository root, run this snippet. It reads `.env` through the same
+settings as the application, calls the real provider, prints the assistant's text,
+and closes the HTTP pool. This is a manual network test and may incur provider
+charges; automated tests below use only mock responses.
+
+```bash
+uv run python - <<'PY'
+import asyncio
+
+from ai_service.core.config import get_settings
+from ai_service.integrations.llm import LLMError, LLMMessage, create_llm_client
+
+
+async def main():
+    async with create_llm_client(get_settings()) as client:
+        response = await client.complete([
+            LLMMessage(role="user", content="Reply with a short greeting.")
+        ])
+        print(response.message.content)
+
+
+try:
+    asyncio.run(main())
+except LLMError as exc:
+    raise SystemExit(f"{type(exc).__name__}: {exc}") from None
+PY
+```
+
+A successful invocation prints a nonempty assistant greeting. An unset key, API
+root or model reports `LLMConfigurationError` before any HTTP request. Other
+failures raise `LLMProviderError` (with `.status_code`), `LLMTimeoutError`,
+`LLMConnectionError`, or `LLMResponseError`. Messages omit credentials and raw
+provider bodies; requests are not retried and redirects are not followed.
+
+Only text messages with `system`, `user` and `assistant` roles are supported in
+this initial adapter. Streaming, tool calls, multimodal messages, conversation
+storage and agent behavior are future work. A tool-only or otherwise non-text
+response raises `LLMResponseError`. The `/api/v1/chat` route is still a placeholder;
+use the snippet above to test the LLM connection directly.
 
 ## Docker
 
@@ -154,14 +227,18 @@ uv run python -c 'from ai_service.main import app; print(app.title)'
 ```
 
 Tests exercise lifespan startup, health, OpenAPI routing, placeholder responses
-and request validation with FastAPI TestClient. They reject Backend client calls
-and need no external service. To format source, run `uv run ruff format .`.
+and request validation with FastAPI TestClient. Endpoint tests reject outbound
+HTTP calls. LLM unit tests use HTTPX `MockTransport` for successful responses,
+configuration failures, invalid responses, provider errors, timeouts and network
+failures; they use no real API keys or external services. To format source, run
+`uv run ruff format .`.
 
 ## Integration and next steps
 
-The application lifespan owns one reusable `httpx.AsyncClient`, exposed as
-`app.state.backend_client`, and closes it at shutdown. Creation performs no
-network I/O. The client has a configured base URL and timeout, rejects unsuccessful
+The application lifespan owns a reusable Backend `httpx.AsyncClient`, exposed as
+`app.state.backend_client`, and a separate LLM HTTP pool through
+`app.state.llm_client`. Both close at shutdown, and creation performs no network
+I/O. The Backend client has a configured base URL and timeout, rejects unsuccessful
 HTTP status codes, and preserves HTTPX connection/timeout exceptions. No Backend
 paths or product methods are assumed. Future feature code can receive the shared
 client through a FastAPI dependency once it is needed.
@@ -172,5 +249,6 @@ agree service authentication, product/history payloads, error translation,
 timeouts, session semantics and the final public contract before integration.
 
 See [architecture](docs/architecture.md) and
-[proposed API contracts](docs/api-contracts.md). No algorithms, LLM calls,
+[proposed API contracts](docs/api-contracts.md). The LLM connection layer is
+available independently; feature endpoints do not invoke it. No algorithms,
 conversation memory, product tools, database models or migrations exist yet.

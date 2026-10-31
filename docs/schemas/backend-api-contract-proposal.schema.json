@@ -1,0 +1,249 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cham-tech:agent-backend-contract:0.1.0-draft",
+  "title": "SWE-69 PROPOSED payloads — NOT IMPLEMENTED OR APPROVED",
+  "description": "Documentation artifact only. Not the live FastAPI OpenAPI contract. Validate a named $defs payload and the semantic rules in the proposal.",
+  "oneOf": [
+    {"$ref": "#/$defs/ChatRequest"},
+    {"$ref": "#/$defs/ChatSuccess"},
+    {"$ref": "#/$defs/ProductSearchQuery"},
+    {"$ref": "#/$defs/ProductSearchResponse"},
+    {"$ref": "#/$defs/ProductDetailsResponse"},
+    {"$ref": "#/$defs/ErrorResponse"},
+    {"$ref": "#/$defs/TransportFailure"}
+  ],
+  "$defs": {
+    "Identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[^\\s\\u0000-\\u001f\\u007f]+$",
+      "description": "PROPOSED opaque, case-sensitive, non-whitespace identifier; never parse as an integer or UUID."
+    },
+    "RequestId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$"
+    },
+    "Timestamp": {"type": "string", "format": "date-time"},
+    "Text": {"type": "string", "minLength": 1, "maxLength": 200, "pattern": "\\S"},
+    "Amount": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,14})$",
+      "description": "PROPOSED VND major-unit decimal string, zero fractional digits, no exponent or sign. Not a JSON float."
+    },
+    "Currency": {
+      "type": "string",
+      "enum": ["VND"],
+      "description": "PROPOSED MVP currency whitelist. Expansion and fractional precision require Backend agreement."
+    },
+    "Cursor": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^[^\\s\\u0000-\\u001f\\u007f]+$"
+    },
+    "HistoryMessage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "content"],
+      "properties": {
+        "role": {"enum": ["user", "assistant"]},
+        "content": {"type": "string", "minLength": 1, "maxLength": 4000, "pattern": "\\S"}
+      }
+    },
+    "ChatRequest": {
+      "type": "object",
+      "description": "PROPOSED canonical request after trimming message/history content. Opaque IDs are preserved; normalization is application logic, not a schema transform.",
+      "additionalProperties": false,
+      "required": ["message"],
+      "properties": {
+        "message": {"type": "string", "minLength": 1, "maxLength": 4000, "pattern": "\\S"},
+        "session_id": {
+          "anyOf": [{"$ref": "#/$defs/Identifier"}, {"type": "null"}],
+          "default": null
+        },
+        "history": {
+          "type": "array",
+          "maxItems": 20,
+          "items": {"$ref": "#/$defs/HistoryMessage"},
+          "default": [],
+          "description": "Semantic rule: completed alternating user/assistant pairs, supplied and authorized by Backend; not persisted by AI."
+        }
+      }
+    },
+    "Money": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["amount", "currency", "observed_at"],
+      "properties": {
+        "amount": {"$ref": "#/$defs/Amount"},
+        "currency": {"$ref": "#/$defs/Currency"},
+        "observed_at": {"$ref": "#/$defs/Timestamp"}
+      }
+    },
+    "Availability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "observed_at"],
+      "properties": {
+        "status": {"enum": ["in_stock", "out_of_stock", "preorder", "unknown"]},
+        "observed_at": {"anyOf": [{"$ref": "#/$defs/Timestamp"}, {"type": "null"}]}
+      },
+      "if": {"properties": {"status": {"enum": ["in_stock", "out_of_stock", "preorder"]}}},
+      "then": {"properties": {"observed_at": {"$ref": "#/$defs/Timestamp"}}}
+    },
+    "ProductFields": {
+      "type": "object",
+      "required": ["product_id", "name", "category_id", "price", "availability"],
+      "properties": {
+        "product_id": {"$ref": "#/$defs/Identifier"},
+        "name": {"$ref": "#/$defs/Text"},
+        "category_id": {"anyOf": [{"$ref": "#/$defs/Identifier"}, {"type": "null"}]},
+        "price": {"anyOf": [{"$ref": "#/$defs/Money"}, {"type": "null"}]},
+        "availability": {"$ref": "#/$defs/Availability"}
+      }
+    },
+    "ProductSummary": {
+      "allOf": [{"$ref": "#/$defs/ProductFields"}],
+      "unevaluatedProperties": false
+    },
+    "ProductDetail": {
+      "allOf": [
+        {"$ref": "#/$defs/ProductFields"},
+        {
+          "type": "object",
+          "required": ["specifications"],
+          "properties": {
+            "specifications": {
+              "type": "object",
+              "maxProperties": 10,
+              "propertyNames": {"type": "string", "minLength": 1, "maxLength": 64, "pattern": "\\S"},
+              "additionalProperties": {"$ref": "#/$defs/Text"}
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "ProductSearchQuery": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["q"],
+      "properties": {
+        "q": {"$ref": "#/$defs/Text"},
+        "category_id": {"$ref": "#/$defs/Identifier"},
+        "min_price": {"$ref": "#/$defs/Amount"},
+        "max_price": {"$ref": "#/$defs/Amount"},
+        "currency": {"$ref": "#/$defs/Currency"},
+        "limit": {"type": "integer", "minimum": 1, "maximum": 5, "default": 5},
+        "cursor": {"$ref": "#/$defs/Cursor"}
+      },
+      "if": {"anyOf": [{"required": ["min_price"]}, {"required": ["max_price"]}]},
+      "then": {"required": ["currency"]},
+      "description": "Normalized query values, NOT a GET body. Compare min/max numerically as a semantic rule."
+    },
+    "Page": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["limit", "next_cursor"],
+      "properties": {
+        "limit": {"type": "integer", "minimum": 1, "maximum": 5},
+        "next_cursor": {"anyOf": [{"$ref": "#/$defs/Cursor"}, {"type": "null"}]}
+      }
+    },
+    "ProductSearchResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["items", "page", "request_id"],
+      "properties": {
+        "items": {"type": "array", "maxItems": 5, "items": {"$ref": "#/$defs/ProductSummary"}},
+        "page": {"$ref": "#/$defs/Page"},
+        "request_id": {"$ref": "#/$defs/RequestId"}
+      }
+    },
+    "ProductDetailsResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["product", "request_id"],
+      "properties": {
+        "product": {"$ref": "#/$defs/ProductDetail"},
+        "request_id": {"$ref": "#/$defs/RequestId"}
+      }
+    },
+    "Evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "capability", "outcome", "product_ids", "observed_at"],
+      "properties": {
+        "source": {"const": "backend"},
+        "capability": {"enum": ["product_search", "product_details"]},
+        "outcome": {"enum": ["ok", "empty", "not_found"]},
+        "product_ids": {
+          "type": "array", "maxItems": 5, "uniqueItems": true,
+          "items": {"$ref": "#/$defs/Identifier"}
+        },
+        "observed_at": {"$ref": "#/$defs/Timestamp"}
+      }
+    },
+    "Warning": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "message"],
+      "properties": {
+        "code": {"enum": ["CATALOG_EMPTY", "PRODUCT_NOT_FOUND", "PRICE_UNAVAILABLE", "AVAILABILITY_UNKNOWN"]},
+        "message": {"$ref": "#/$defs/Text"}
+      }
+    },
+    "ChatSuccess": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "message", "session_id", "products", "evidence", "warnings", "request_id"],
+      "properties": {
+        "status": {"enum": ["answered", "needs_clarification"]},
+        "message": {"type": "string", "minLength": 1, "maxLength": 8000, "pattern": "\\S"},
+        "session_id": {"anyOf": [{"$ref": "#/$defs/Identifier"}, {"type": "null"}]},
+        "products": {"type": "array", "maxItems": 5, "items": {"$ref": "#/$defs/ProductSummary"}},
+        "evidence": {"type": "array", "maxItems": 4, "items": {"$ref": "#/$defs/Evidence"}},
+        "warnings": {"type": "array", "maxItems": 5, "items": {"$ref": "#/$defs/Warning"}},
+        "request_id": {"$ref": "#/$defs/RequestId"}
+      }
+    },
+    "ErrorResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["error", "request_id"],
+      "properties": {
+        "error": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["code", "message", "retryable"],
+          "properties": {
+            "code": {"enum": [
+              "INVALID_REQUEST", "UNAUTHENTICATED", "FORBIDDEN", "RATE_LIMITED",
+              "PRODUCT_NOT_FOUND", "UPSTREAM_AUTH_ERROR", "UPSTREAM_CONTRACT_ERROR",
+              "INVALID_BACKEND_RESPONSE", "BACKEND_TIMEOUT", "BACKEND_UNAVAILABLE",
+              "UPSTREAM_RATE_LIMITED", "LLM_UNAVAILABLE", "AGENT_LIMIT_EXCEEDED",
+              "AI_TIMEOUT", "INTERNAL_ERROR"
+            ]},
+            "message": {"$ref": "#/$defs/Text"},
+            "retryable": {"type": "boolean"}
+          }
+        },
+        "request_id": {"$ref": "#/$defs/RequestId"}
+      }
+    },
+    "TransportFailure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dependency", "operation", "failure", "elapsed_ms", "request_id"],
+      "description": "Documentation-only transport observation. NOT a Backend HTTP response or public payload.",
+      "properties": {
+        "dependency": {"const": "backend"},
+        "operation": {"enum": ["product_search", "product_details"]},
+        "failure": {"const": "timeout"},
+        "elapsed_ms": {"type": "integer", "minimum": 0},
+        "request_id": {"$ref": "#/$defs/RequestId"}
+      }
+    }
+  }
+}

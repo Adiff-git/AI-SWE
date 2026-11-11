@@ -67,3 +67,11 @@ serial regression results, actual Backend HTTP -> FastAPI -> sklearn verificatio
 - `tests/test_hybrid.py`
 - `tests/test_recommendation_corpus.py`
 - `uv.lock`
+
+## Local integration and postmerge verification
+
+Feature commit `ac6a6ee4291cabdce9a458de68e84f9d99f8f221`; merge commit `f57856d3c06dd68ef04ca7b5af57441f3d4b6f9f` into `main`.
+Feature branch retained; 255 AI tests pass again on merged code, Ruff passes.
+Backend merged independently into draft/version-1 with 752 full-regression tests and
+357 unit +167 selected postmerge IT cases passing, including actual HTTP/AI outage verification.
+No push/deployment; final documentation-only commit records evidence and checkpoints.

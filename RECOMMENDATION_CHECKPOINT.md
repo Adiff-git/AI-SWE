@@ -1,20 +1,17 @@
-# Recommendation checkpoint
-Current branch: features/AIRecommendation. Integration contract: v1, canonical
-AI-SWE/src/ai_service/recommendation/inference.py; generated internal OpenAPI agrees.
-Completed: request-local hybrid TF-IDF, configurable scoring, bounded recent interests,
-authoritative wishlist state, popularity/diversity, protected keyed inference; Backend 3 APIs,
-strict result validation and publication/variant/media-safe batch hydration, documentation.
-Files changed: see docs/recommendation-verification.md and git diff --cached --stat.
-Tests passed: AI 255 + Ruff; Backend complete serial mvnw verify 752 distinct cases
-(357 unit +395 IT), zero failures/errors/skips. Real 1500-product two-service HTTP passed:
-JWT owner data, minimized payload, general/cold start, similar, source exclusion, 401 and outage.
-Latest full-run first133ms, warm71-105ms, AI47-52ms, hydration2-5ms, outage46ms;
-500-event standalone engine242-251ms. Synthetic/local observations, no quality/SLO claims.
-Resolved failures: fixture option constraints/stubbing, unbounded diversity penalty, missing
-empty-vocabulary wishlist fallback, and initial full-run JDK spawn-helper mismatch after
-in-place JDK25.0.4.1->25.0.5.0.3 update. Final full regression used fresh JVM and passed.
-Remaining blockers: none. Next: final staged review, independent feature commits, local merges
-(AI main; Backend draft/version-1), postmerge focused/HTTP tests, update this checkpoint.
-No push/deployment. Catalog-Data read-only c5dcfaa. No historical/new migrations modified.
-NOT VERIFIED: deployed browser/production load/network. DEFERRED: human relevance evaluation,
-unapproved technical-specification features. Frontend instrumentation remains outside scope.
+# Recommendation checkpoint — locally complete
+Current branch: main. Feature branch retained: features/AIRecommendation.
+Feature commit: ac6a6ee4291cabdce9a458de68e84f9d99f8f221
+Local merge commit: f57856d3c06dd68ef04ca7b5af57441f3d4b6f9f
+Contract v1 canonical AI-SWE/src/ai_service/recommendation/inference.py.
+Completed components/files: docs/recommendation.md and docs/recommendation-verification.md.
+Tests passed: AI 255, Ruff; complete Backend serial verify 752 distinct cases
+(357 unit +395 IT), zero failures/errors/skips. Postmerge: AI255; Backend357 unit +167 selected
+IT cases (154 +13 distinct), all passed, including actual two-service HTTP with1500 Backend
+fixture products, owner/JWT/minimized payload, general/cold-start/similar, 401 and stopped-AI fallback.
+Initial JDK25.0.4.1->25.0.5.0.3 in-place update caused one spawn-helper infrastructure error;
+fresh-JVM full rerun and postmerge runs passed. No outstanding test failures or blockers.
+Postmerge HTTP: cold164ms, warm75-95ms, AI48-52ms, hydration4-8ms, fallback40ms (local observations).
+Next action: none required for this MVP; frontend integration uses the documented Backend APIs.
+No push/deployment; Catalog-Data remains read-only at c5dcfaa. No migrations added/modified.
+NOT VERIFIED: deployed/browser behavior, production load/network/TLS. DEFERRED: human-reviewed
+relevance labels and specification features without trusted approved values.

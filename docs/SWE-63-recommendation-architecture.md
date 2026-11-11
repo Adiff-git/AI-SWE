@@ -1,5 +1,9 @@
 # SWE-63 — Recommendation System Architecture
 
+> Historical proposal (2026-10-31). Recommendation scope, architecture and contracts here
+> are superseded by [implemented MVP](recommendation.md). The canonical v1 schema is
+> `src/ai_service/recommendation/inference.py`; this document is not an active contract.
+
 **Project:** SWE Group 03 — E-commerce Recommendation System  
 **Status:** Proposed design — pending Backend integration review  
 **Catalog scope:** 1,500 selected products  

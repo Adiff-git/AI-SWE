@@ -1,5 +1,10 @@
 # Agent–Backend Integration Contract — SWE-69
 
+> Recommendation update: protected hybrid inference and its security/contract are
+> documented in [recommendation.md](recommendation.md). Earlier recommendation design
+> statements below describe the legacy placeholder/proposal and are superseded for the MVP.
+> Existing agent contracts and legacy route responses retain their documented behavior.
+
 **Status: DRAFT / PROPOSED — NOT APPROVED, NOT IMPLEMENTED.** Contract revision:
 `0.1.0-draft`. Backend Team approval: **Pending**. AI Team approval: **Pending**.
 Writing or merging this proposal does not approve its API or enable live access.

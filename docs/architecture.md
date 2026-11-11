@@ -1,5 +1,10 @@
 # Architecture
 
+> Recommendation update: protected hybrid inference and its security/contract are
+> documented in [recommendation.md](recommendation.md). Earlier recommendation design
+> statements below describe the legacy placeholder/proposal and are superseded for the MVP.
+> Existing agent contracts and legacy route responses retain their documented behavior.
+
 One FastAPI process and one AI container host both feature modules.
 
 ```mermaid

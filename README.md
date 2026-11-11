@@ -1,8 +1,10 @@
 # AI-SWE — Electronics AI Service
 
-Initial AI repository for our university electronics e-commerce project. One
+AI repository for our university electronics e-commerce project. One
 FastAPI application contains two independent feature modules: product
-recommendation and an AI shopping agent. **Both public feature endpoints are placeholders.**
+recommendation and an AI shopping agent. Protected hybrid recommendation inference is
+implemented for Backend calls. The legacy `/api/v1/recommendations` and `/api/v1/chat`
+public routes remain placeholders for compatibility. Frontend uses Backend recommendation APIs.
 The service runs without a Backend connection, database, model or LLM credentials.
 An independent async LLM client supports OpenAI-compatible Chat Completions APIs;
 the chat endpoint still returns its original placeholder without calling it.
@@ -15,7 +17,7 @@ The repository directory `AI-SWE/` corresponds to the proposed `ai-service/` roo
 ## Stack and boundaries
 
 Python 3.12+, FastAPI, Pydantic v2, pydantic-settings, HTTPX, Uvicorn, uv,
-pytest, Ruff, Docker and Docker Compose. Development and Docker use Python 3.12.
+scikit-learn, NumPy/SciPy, pytest, Ruff, Docker and Docker Compose. Development and Docker use Python 3.12.
 The Backend owns authentication, authorization and all business data. The AI
 service uses HTTP REST only and never accesses the Backend database.
 
@@ -27,7 +29,7 @@ AI-SWE/
 │   ├── __init__.py
 │   ├── main.py
 │   ├── api/v1/{router,health}.py
-│   ├── recommendation/{router,schemas,service}.py
+│   ├── recommendation/{router,schemas,service,internal_router,inference,engine}.py
 │   ├── agent/
 │   │   ├── router.py
 │   │   ├── schemas.py
@@ -55,7 +57,7 @@ AI-SWE/
 ```
 
 Every Python package directory includes `__init__.py`. Routers handle HTTP;
-schemas validate API data; service functions own future feature behavior.
+schemas validate API data; recommendation/engine.py ranks request-scoped catalog snapshots.
 `core/` contains settings and logging, and `integrations/` owns Backend HTTP
 configuration and the independent LLM adapter. `agent/orchestrator.py` owns the
 independent core; `agent/conversation.py` defines its internal request/result
@@ -71,14 +73,16 @@ From the repository root:
 ```bash
 cp .env.example .env
 uv sync --locked
-uv run ai-service
+# Share this local service credential with Backend RECOMMENDATION_AI_KEY.
+export RECOMMENDATION_SERVICE_KEY="$(uv run python -c 'import secrets; print(secrets.token_urlsafe(32))')"
+HOST=127.0.0.1 uv run ai-service
 ```
 
 `ai-service` reads `HOST` and `PORT` from settings. For automatic reload during
 development, use explicit server binding arguments:
 
 ```bash
-uv run uvicorn ai_service.main:app --reload --host 0.0.0.0 --port 8001
+uv run uvicorn ai_service.main:app --reload --host 127.0.0.1 --port 8001
 ```
 
 The reload command's CLI host/port arguments control binding, independently of
@@ -114,14 +118,17 @@ Settings are cached for the process; restart after editing configuration.
 | `LOG_LEVEL` | `INFO` | DEBUG, INFO, WARNING, ERROR or CRITICAL |
 | `BACKEND_API_BASE_URL` | `http://localhost:8000` | Backend HTTP(S) base URL |
 | `BACKEND_API_TIMEOUT` | `10` | Positive timeout in seconds for HTTPX operations |
+| `RECOMMENDATION_SERVICE_KEY` | Unset | Random >=32-character Backend service credential; inference fails closed if absent |
+| `RECOMMENDATION_WEIGHTS` | `{}` | Validated named scoring weight overrides |
 | `LLM_API_KEY` | Unset | Provider API key, required only when invoking the LLM |
 | `LLM_BASE_URL` | Unset | HTTP(S) API root, e.g. `https://api.openai.com/v1` |
 | `LLM_MODEL` | Unset | Provider-specific model identifier |
 | `LLM_TIMEOUT` | `30` | Positive, finite timeout in seconds per HTTPX network operation |
 
 Never commit credentials. `.env` files are ignored by Git and excluded from the
-Docker build context. Credentials are optional for startup and all existing API
-endpoints. Blank LLM settings are treated as unset; incomplete configuration raises
+Docker build context. LLM credentials are optional for startup and legacy API
+endpoints; recommendation inference requires a configured service key. Blank LLM
+settings are treated as unset; incomplete configuration raises
 `LLMConfigurationError` only when `complete()` is called. Invalid nonempty URLs or
 timeouts are configuration validation errors. The API key uses Pydantic
 `SecretStr`; do not log raw credentials, headers or provider response bodies.
@@ -298,7 +305,8 @@ docker compose down
 
 Compose contains **only the AI service**, published at `127.0.0.1:8001` for local
 development. It fixes the container binding to `0.0.0.0:8001`. It works without
-`.env`; the default Backend address is `http://backend:8000`, which need not
+a file-based `.env` when `RECOMMENDATION_SERVICE_KEY` is exported; the default Backend
+address is `http://backend:8000`, which need not
 resolve until a future integration actually sends requests. Compose also reads
 `.env` for variable substitution: if you copied the local example, override its
 `localhost` Backend address when connecting containers on a shared network.
@@ -308,6 +316,7 @@ Build and run the image independently:
 ```bash
 docker build -t electronics-ai-service:local .
 docker run --rm -p 127.0.0.1:8001:8001 \
+  -e RECOMMENDATION_SERVICE_KEY \
   -e BACKEND_API_BASE_URL=http://backend:8000 electronics-ai-service:local
 ```
 
@@ -365,14 +374,19 @@ HTTP status codes, and preserves HTTPX connection/timeout exceptions. No Backend
 paths or product methods are assumed. Future feature code can receive the shared
 client through a FastAPI dependency once it is needed.
 
-Backend must authenticate callers and authorize the supplied `user_id`. No AI
-authentication or authorization is implemented in this scaffold. The teams must
-agree service authentication, product/history payloads, error translation,
-timeouts, session semantics and the final public contract before integration.
+Backend authenticates Customers and sends minimized request-scoped data to the protected
+`/internal/recommendations/*` endpoints. AI service authentication uses an environment
+credential, with restricted network exposure; it receives no Customer JWT or identity.
+The legacy `user_id` placeholder never resolves histories and is not used by frontend.
+See the [canonical inference contract and algorithm](docs/recommendation.md).
 
 See [architecture](docs/architecture.md) and
 [proposed API contracts](docs/api-contracts.md). The LLM connection layer and agent
 core are available independently; feature endpoints do not invoke them. Read-only
 product interfaces use fake/unavailable sources pending SWE-69 contract approval.
-No recommendation algorithms, conversation memory, database models or migrations
-exist yet.
+The hybrid recommendation engine is implemented; conversation memory and AI-owned
+business database models/migrations remain outside this service.
+
+## Recommendation MVP
+
+See [recommendation documentation](docs/recommendation.md).

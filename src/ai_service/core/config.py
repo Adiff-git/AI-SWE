@@ -19,6 +19,8 @@ class Settings(BaseSettings):
     backend_api_base_url: AnyHttpUrl = AnyHttpUrl("http://localhost:8000")
     backend_api_timeout: float = Field(default=10, gt=0, allow_inf_nan=False)
 
+    recommendation_service_key: SecretStr | None = None
+
     llm_api_key: SecretStr | None = None
     llm_base_url: AnyHttpUrl | None = None
     llm_model: str | None = None

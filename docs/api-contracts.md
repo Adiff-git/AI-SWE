@@ -1,5 +1,10 @@
 # API contracts — CURRENT behavior and proposed integration
 
+> Recommendation update: protected hybrid inference and its security/contract are
+> documented in [recommendation.md](recommendation.md). Earlier recommendation design
+> statements below describe the legacy placeholder/proposal and are superseded for the MVP.
+> Existing agent contracts and legacy route responses retain their documented behavior.
+
 The routes and placeholder payloads labeled **CURRENT** below are implemented.
 They are not completed recommendation/chat features. Future Backend integration
 is **PROPOSED**, not deployed or approved. See the review-ready

@@ -1,5 +1,9 @@
 # SWE-62 — Recommendation Data Requirements
 
+> Historical proposal (2026-10-31). Recommendation scope, architecture and contracts here
+> are superseded by [implemented MVP](recommendation.md). The canonical v1 schema is
+> `src/ai_service/recommendation/inference.py`; this document is not an active contract.
+
 **Project:** SWE Group 03 — E-commerce Recommendation System  
 **Status:** Draft for AI/Backend review  
 **Dataset scope:** 1,500 selected products (current project scope; selection file not yet supplied for verification)  

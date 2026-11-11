@@ -1,0 +1,545 @@
+{
+  "provenance": "Read-only Catalog-Data c5dcfaa: first 10 titles per category, description truncated to 500 chars. Brand proposals are illustrative, not verified. No IDs, prices, specs, images or source links copied.",
+  "products": [
+    {
+      "name": "SAMSUNG Galaxy A51 (A515F) 128GB DUOS GSM Unlocked Smartphone w/Quad Camera 48 MP + 12 MP + 5 MP + 5 MP (International Variant/US Compatible LTE) - Prism Crush Black",
+      "category": "Smartphone",
+      "brand": "Samsung",
+      "description": "A51's Infinity-O Display optimizes visual symmetry. Now you can game, watch, surf, and multi-task without interruption on a 6.5\" FHD+ widescreen display—all powered by Super AMOLED technology. Enjoy a smartphone experience that minimizes the bezel and maximizes each inch of screen space. The rhythmical pattern of A51's design theme comes in smooth and elegant pastel shades including Prism Crush Black, White, Blue and Pink. A premium gloss finish adds the perfect touch of style to its sleek and s"
+    },
+    {
+      "name": "Sony Xperia Pro-I Dual-SIM 512GB ROM + 12GB RAM (GSM only | No CDMA) Factory Unlocked 5G Smartphone (Frosted Black) - International Version",
+      "category": "Smartphone",
+      "brand": "Sony",
+      "description": "Body: 166.0x72.0x8.9mm, 211g; Glass front (Gorilla Glass Victus), glass back (Gorilla Glass 6), aluminum frame; IP65/IP68 dust/water resistant (up to 1.5m for 30 mins). Display: 6.50\" OLED, 1B colors, 120Hz, HDR BT.2020, 1644x3840px resolution, 21:9 aspect ratio, 643ppi; Runs at 1096 x 2560 pixels except for select use cases. Chipset: Qualcomm SM8350 Snapdragon 888 5G (5 nm): Octa-core (1x2.84 GHz Kryo 680 & 3x2.42 GHz Kryo 680 & 4x1.80 GHz Kryo 680); Adreno 660. Memory: 512GB 12GB RAM; UFS 3.X;"
+    },
+    {
+      "name": "Xiaomi Redmi Note8 Pro Smartphone, 6 GB + 64 GB, Grigio (Mineral Grey)",
+      "category": "Smartphone",
+      "brand": "Xiaomi",
+      "description": "Delivers high-resolution photos for up to 3.26m tall poster printing 64MP ultra high-resolution camera. Almost twice the number of pixels of 8K resolution. Supports 4K video recording, 960fps slow motion video recording. 2cm close-up macro lens, super close auto focus capabilities. Activating the ultra-wide angle mode changes the field of view from 79° to 120°, and more scenes can be shot without changing the shooting position. Fine-tuned AI Beautify for photo taking and video recording. The por"
+    },
+    {
+      "name": "Xiaomi Mi 11 Lite 5G NE Unlocked Cellphone, 5G + 4G LTE Volte Smartphone,8GB + 128GB,Black",
+      "category": "Smartphone",
+      "brand": "Xiaomi",
+      "description": "Body: 160.5x75.7x6.8mm, 158g; Gorilla Glass 5 front, glass back, plastic frame; IP53, dust and splash protection. Display: 6.55\" AMOLED, 1B colors, Dolby Vision, HDR10+, 90Hz, 1080x2400px resolution, 20:9 aspect ratio, 402ppi. Chipset: Qualcomm SM7325 Snapdragon 778G 5G (6 nm): Octa-core (1x2.4 GHz Kryo 670 & 3x2.4 GHz Kryo 670 & 4x1.80 GHz Kryo 670); Adreno 642L. Memory: 128GB 6GB RAM, 128GB 8GB RAM, 256GB 8GB RAM; UFS 2.2; microSDXC (uses shared SIM slot). OS/Software: Android 11, MIUI 12.5. R"
+    },
+    {
+      "name": "Samsung Galaxy Note 10 Lite N770F, Dual SIM LTE, International Version (No US Warranty), 128GB, Aura Glow - GSM Unlocked",
+      "category": "Smartphone",
+      "brand": "Samsung",
+      "description": "From spectacular viewing space to an intuitively housed S Pen, Galaxy Note10 Lite is a masterful design of style and performance. Its smooth metal frame curves elegantly for ergonomic comfort and feel. Galaxy Note10 Lite's Infinity-O Display features a near bezel-less 17.03cm (6.7\")¹ Full HD+ Super AMOLED screen for more viewing and doing space, and less viewing distraction. An On-Screen Fingerprint scanner is built into the screen, providing an invisible layer of vault-like security. S Pen is y"
+    },
+    {
+      "name": "Xiaomi Redmi 9A - Smartphone 2 GB + 32 GB, Dual Sim, Blu (Sky Blue)",
+      "category": "Smartphone",
+      "brand": "Xiaomi",
+      "description": "Package contents Redmi 9A/Power adapter/5V2A Charger/ Micro-USB cable / SIM eject tool / Warranty card / User guide Display 6.53” HD+ Dot Drop display, 720x1600 HD+, 20:9 aspect ratio, 1500:1 contrast ratio, NTSC 70.8% (typ), 400 nit (typ) brightness, Supports Color temperature adjustment | Standard mode | Reading mode, Supports Sunlight mode Battery 5000mAh (typ) Supports 10W charge, In-box 10W (5V/2A) charger, Micro USB charging port, Built-in rechargeable battery Camera 13 MP Rear Camera with"
+    },
+    {
+      "name": "SAMSUNG Galaxy S21 Ultra 5G Factory Unlocked Android Cell Phone 256GB US Version Smartphone Pro-Grade Camera 8K Video 108MP High Res, Phantom Black",
+      "category": "Smartphone",
+      "brand": "Samsung",
+      "description": "The Samsung Galaxy S21 Ultra 5G phone is epic in every way, with a striking new design, fastest Galaxy processor yet, a battery that goes all day and then some, and the first Galaxy ever supporting super smooth 120Hz screen refresh rate at WQHD+ resolution, it’s no surprise why Ultra easily lives up to its name. We know your life moves fast, and there’s a fine line between what makes a moment ordinary and what makes it extraordinary. That’s why Galaxy S21 Ultra 5G is purposefully crafted so you "
+    },
+    {
+      "name": "SAMSUNG Galaxy A71 5G Factory Unlocked Android Cell Phone 128GB US Version Smartphone 6.7-inch AMOLED Screen Long-Lasting Battery Single SIM, Black",
+      "category": "Smartphone",
+      "brand": "Samsung",
+      "description": "Experience the features you've been waiting for, with hyperfast 5G connectivity on the Samsung Galaxy A71 5G. Giving you so much more than you bargained for, power through the day without worrying about power, thanks to the long-lasting, fast charging battery. Make space for all those special memories with 128GB of internal storage that’s expandable to up to 1TB with a microSD card on this 5G smartphone. Capture all the beautiful details around you just as you see them with the quad lens camera "
+    },
+    {
+      "name": "Xiaomi Redmi Note 8 Pro 128GB Hybrid Dual-SIM GSM Unlocked Phone - Dark Grey",
+      "category": "Smartphone",
+      "brand": "Xiaomi",
+      "description": "International Model - No Warranty in the US. Compatible with Most GSM Carriers like T-Mobile, AT&T, MetroPCS, etc. Will NOT work with CDMA Carriers Such as Verizon, Sprint, Boost. - FCC ID: 2AFZZG7G"
+    },
+    {
+      "name": "SAMSUNG Galaxy S20 FE 5G Factory Unlocked Android Cell Phone 128GB US Version Smartphone Pro-Grade Camera 30X Space Zoom Night Mode, Cloud Red",
+      "category": "Smartphone",
+      "brand": "Samsung",
+      "description": "With A Triple Pro-Grade Camera, Smooth 120Hz Refresh Rate Display, And An All-Day Intelligent Battery¹ That Charges Up In Minutes, The Samsung Galaxy S20 Fe 5G Delivers Outstanding Innovation. The Triple-Lens Camera System Will Not Only Take Bright And High Quality Images And Videos, But Can Also Zoom In From Afar, Thanks To The 30X Space Zoom. The Single Take Ai Mode Will Let You Capture Multiple Images And Videos With Just A Touch Of A Button. Shooting At Night? No Problem. With The Help Of Ni"
+    },
+    {
+      "name": "SAMSUNG XE350XBA-K01US Chromebook 4 + Chrome OS 15.6\" Full HD Intel Celeron Processor N4000 4GB RAM 32Gb Emmc Gigabit Wi-Fi, Silver",
+      "category": "Laptop",
+      "brand": "Samsung",
+      "description": "The quality of Samsung Meets the accessibility of chrome OS. Immerse yourself in the content you love on 15.6 inches of truly maximized screen space. Its all-new light and compact design lets you stream, work, create, and play on a fast, secure device designed to take everywhere."
+    },
+    {
+      "name": "Lenovo Chromebook Flex 5 13\" Laptop, FHD Touch Display, Intel Core i3-10110U, 4GB RAM, 64GB Storage, Chrome OS",
+      "category": "Laptop",
+      "brand": "Lenovo",
+      "description": "With the Lenovo Chromebook Flex 5 laptop, you'll enjoy more productivity with less complexity. This 13.3-inch Chromebook, powered by 10th Generation Intel Core i3 processors, boasts up to 10 hours of battery life to let you get things done quickly and easily with all your favorite Chromebook features. Powered by Chrome OS and designed to integrate easily with your Google account, just turn it on, log in, and you have access to all your shared files, photos, music, and documents! Of course, produ"
+    },
+    {
+      "name": "(Discontinued) HP Stream 11-r010nr 11.6-Inch Notebook (Intel Celeron Processor, 2GB RAM, 32 GB Hard Drive, Windows 10 Home 64- Bit), Cobalt Blue",
+      "category": "Laptop",
+      "brand": "HP",
+      "description": "Product Description Looking for a notebook that can keep up with your busy day? The HP Stream is the hard-working, smartly-designed notebook that's light on price. Amazon.com"
+    },
+    {
+      "name": "Lenovo IdeaPad 3 11 Chromebook Laptop,11.6\" HD Display,Intel Celeron N4020, 4GB RAM, 64GB Storage, UHD Graphics 600, Chrome OS, Onyx Black",
+      "category": "Laptop",
+      "brand": "Lenovo",
+      "description": "Enjoy more simplicity and productivity with the fast, fun, and flexible Lenovo Chromebook 3 11-inch laptop. This convenient and portable Chromebook laptop couldn't be easier to use – just log in with your Google account and you're ready to go! No setup needed to get right to work or play. Plus, with access to the rich library of apps on Google Play, you'll have the latest programs at your fingertips. Work with others using Google's suite of collaboration software, like Google Sheets and Docs; wh"
+    },
+    {
+      "name": "[2021 Version]ASUS Vivobook Laptop L210 11.6” ultra thin, Intel Celeron N4020 Processor, 4GB RAM, 64GB eMMC storage, Windows 10 Home in S mode with One Year of Office 365 Personal, L210MA-DB01",
+      "category": "Laptop",
+      "brand": "ASUS",
+      "description": "The ASUS Laptop L210MA is designed to help you be productive all day — even when you’re on the move. This compact and lightweight 11.6 inch laptop is powered by the latest Intel processor and provides long lasting battery life. With eMMC storage and pre-loaded Windows 10 in S mode, it offers full compatibility with a wide range of software and peripherals. It’s the best laptop for people on the go. *The actual transfer speed of USB 3.0, 3.1, 3.2 (Gen 1 and 2), and/or Type-C will vary depending o"
+    },
+    {
+      "name": "Lenovo 2020 IdeaPad Laptop ComputerAMD A6-9220e 1.6GHz 4GB Memory 64GB eMMC Flash Memory 14\" AMD Radeon R4 AC WiFi Microsoft Office 365 Platinum Gray Windows 10 Home",
+      "category": "Laptop",
+      "brand": "Lenovo",
+      "description": "Processor & Memory✍ AMD A6-9220e r 1. 6GHz ✍ 4GB DDR4 Memory Operating System✍ Microsoft Windows 10 Home (64 bit) Drives✍ 64GB✍ NO DVD drive Display & Resolution✍ 14\" display✍ 1366 x 768 Communications✍ Wireless-AC Graphics (integrated)✍ AMD Radeon R4 integrated graphics Ports & Slots✍ 2 x USB 3. 0✍ 1x HDMI✍ 1x Media Card Reader✍ 1xCombo microphone and headphones audio jack Battery✍ 35 WHr Additional Information✍ Dimensions: 12. 9 x 9. 3 x 0. 7\" in✍ Approximate Weight: 3. 1 pounds"
+    },
+    {
+      "name": "Samsung Chromebook 3, 11.6\", 4GB RAM, 16GB eMMC, Chromebook (XE500C13)",
+      "category": "Laptop",
+      "brand": "Samsung",
+      "description": "Built-in security features ensure you're protected from viruses and malware. No setup or long load times-simply log in with a Google account, and you're in. Navigate your world with Chrome OS. Get the best of Google, Gmail, Maps, Docs and Pics, and back everything up safely in the cloud. And since your Chromebook gets free updates automatically, it will only get better. Built-in security features ensure you're protected from viruses and malware. No setup or long load times-simply log in with a G"
+    },
+    {
+      "name": "Lenovo Chromebook S330 Laptop, 14-Inch FHD Display, MediaTek MT8173C, 4GB RAM, 64GB Storage, Chrome OS",
+      "category": "Laptop",
+      "brand": "Lenovo",
+      "description": "Faster, simpler, and more secure, the Lenovo Chromebook S330 brings the latest Chromebook features to you—housed in a sleek, stylish, and durable slim laptop chassis in Business Black. Bringing the latest multimedia in high definition, this Chromebook features an FHD display that is near-edgeless, for effortless enjoyment of your favorite multimedia content. Never slowing down and always up to date, the Lenovo Chromebook S330 offers the latest in digital security while delivering perfect day-to-"
+    },
+    {
+      "name": "Lenovo Flex 5 14 2-in-1 Laptop, 14.0\" FHD Touch Display, AMD Ryzen 5 4500U, 16GB RAM, 256GB Storage, AMD Radeon Graphics, Digital Pen Included, Win 10",
+      "category": "Laptop",
+      "brand": "Lenovo",
+      "description": "Accessorize your lifestyle with the Lenovo Flex 5 14\" 2-in-1 Laptop. Ultra thin, lightweight, and ultra portable, the Flex 5 weighs in at just 3.64 lbs and is less than 1-inch thick when closed. Slim, stylish, and proudly powered by the AMD Ryzen 5 4500U mobile processor with Radeon graphics, you can carry this touchscreen laptop with you everywhere – digital pen included. The Flex 5 is designed for excellent all-around performance, graphics, and productivity, whether you're enjoying entertainme"
+    },
+    {
+      "name": "SAMSUNG 11.6\" Chromebook with Intel N3060 up to 2.48GHz, 4GB Memory, 16GB eMMC Flash Memory, Bluetooth 4.0, USB 3.0, HDMI, Webcam, Chrome Operating System, Black",
+      "category": "Laptop",
+      "brand": "Samsung",
+      "description": "Samsung 11 6\" Chromebook with Intel N3060 up to 2 48GHz 4GB Memory 16GB eMMC Flash Memory Bluetooth 4 0 USB 3 0 HDMI Webcam Chrome Operating System"
+    },
+    {
+      "name": "SAMSUNG SM-T290NZKAXAR, Galaxy Tab A 8.0\" 32 GB Wifi Android 9.0 Pie Tablet Black 2019",
+      "category": "Tablet",
+      "brand": "Samsung",
+      "description": "Sleek and powerful, the new Galaxy Tab A 8.0\" Lets you browse, watch your favorite shows and movies, play games, and get things done on a tablet that's light and comfortable in your hands. With a long-lasting battery and expandable memory, The Galaxy Tab A 8.0\" is built to keep up with you."
+    },
+    {
+      "name": "SAMSUNG Galaxy Tab A- 10.1\" 64GB, Wifi Tablet- SM-T510NZKFXAR Black",
+      "category": "Tablet",
+      "brand": "Samsung",
+      "description": "Bring the cinematic experience home with a widescreen Galaxy Tab A 10.1\" That delivers entertainment The whole family can enjoy. Feel the action come to life all around you with immersive Dolbsy Atmos surround sound. Browse, shop or binge-watch for hours with a long-lasting battery—plus, make room for all of your favorites with expandable storage. Earjack- 0.13 inches Stereo."
+    },
+    {
+      "name": "Apple iPad with WiFi, 32GB, Space Gray (2017 Model)",
+      "category": "Tablet",
+      "brand": "Apple",
+      "description": "Apple iPad with WiFi, 32GB, Space Gray (2017 Model)"
+    },
+    {
+      "name": "Samsung Galaxy Tab 4 SM-T530NYKAXAR 10.1-Inch 16GB (Black)",
+      "category": "Tablet",
+      "brand": "Samsung",
+      "description": "Product Description At a Glance: High-resolution, 10.1-inch display for vivid detail High-resolution, 10.1-inch display for vivid detail Watch movies, play games, read, browse the web, and more Watch movies, play games, read, browse the web, and more IR blaster allows you to use tablet as universal remote IR blaster allows you to use tablet as universal remote Search TV listings and receive recommendations Search TV listings and receive recommendations Share your tablet with multi-user mode Shar"
+    },
+    {
+      "name": "SAMSUNG Galaxy Tab A 8.0\" (2019, WiFi + Cellular) 32GB, 5100mAh Battery, 4G LTE Tablet & Phone (Makes Calls) GSM Unlocked SM-T295, International Model (32 GB, Black)",
+      "category": "Tablet",
+      "brand": "Samsung",
+      "description": "The tablet that goes where you goDiscover a practical companion in Galaxy Tab A (8.0'', 2019), a tablet that excels at the basics and adds a lot more. With a design that’s easy to carry with one hand, it's slim, compact, and portable, the ideal blend of performance, design and attainability. A design that won't get in the wayWe removed the front home key and moved the logo to the back on Galaxy Tab A (8.0\", 2019) to give you a larger screen to view and explore. Dual speakers fitted in on the bot"
+    },
+    {
+      "name": "Samsung Galaxy Tab A 8 Inch; 16 GB Wifi Tablet (Smoky Titanium) SM-T350NZAAXAR",
+      "category": "Tablet",
+      "brand": "Samsung",
+      "description": "8.0 inch Wi-Fi tablet touchscreen, Android, 1.2 GH quad core, camera with autofocus and 4x digital zoom, galaxy apps, internet. Frequencies 2.4GHz+5GHz."
+    },
+    {
+      "name": "SAMSUNG SM-T290NZSAXAR, Galaxy Tab A 8.0\" 32 GB Wifi Tablet Silver 2019",
+      "category": "Tablet",
+      "brand": "Samsung",
+      "description": "Sleek and powerful, the new Galaxy Tab A 8.0\" Lets you browse, watch your favorite shows and movies, play games, and get things done on a tablet that's light and comfortable in your hands. With a long-lasting battery and expandable memory, The Galaxy Tab A 8.0\" Is built to keep up with you."
+    },
+    {
+      "name": "Samsung Galaxy Tab A SM-T580NZKAXAR 10.1-Inch 16 GB, Tablet (Black)",
+      "category": "Tablet",
+      "brand": "Samsung",
+      "description": "Enjoy powerful performance and a vibrant display with the Black 10.1\" Galaxy Tab a from Samsung. This tablet features a Samsung exynos 7870 chip set, which utilizes an octa core processor clocked at speeds up to 1.6 GHz. It comes with 2GB of RAM and 16GB of built in storage. It's also equipped with a micro SD slot that supports microSDXC cards up to 2TB. Bluetooth 4.2 connectivity is also integrated for pairing with Bluetooth enabled devices, such as Select headphones and accessories. Troublesho"
+    },
+    {
+      "name": "Samsung Galaxy Tab A 10.1 32 GB Wifi Tablet Black (2019)",
+      "category": "Tablet",
+      "brand": "Samsung",
+      "description": "Bring the cinematic experience home with a widescreen Galaxy Tab A 10. 1\" That delivers entertainment The whole family can enjoy. Feel the action come to life all around you with immersive Dolby Atoms surround sound. Browse, shop or binge watch for hours with a long lasting battery—plus, make room for all of your favorites with expandable storage."
+    },
+    {
+      "name": "SAMSUNG Galaxy Tab A 8.0\" (2019, WiFi Only) 32GB, 5100mAh Battery, Dual Speaker, SM-T290, International Model (Black)",
+      "category": "Tablet",
+      "brand": "Samsung",
+      "description": "The tablet that goes where you goDiscover a practical companion in Galaxy Tab A, a tablet that excels at the basics and adds a lot more. With a design that’s easy to carry with one hand, it's slim, compact, and portable with the ideal blend of performance, design and attainability. A design that won't get in the wayWe removed the front home key and moved the logo to the back on Galaxy Tab A to give you a larger screen to view and explore. Dual speakers fitted on the bottom of the tablet stay out"
+    },
+    {
+      "name": "Sony WF-XB700 EXTRA BASS True Wireless Earbuds Headset/Headphones with Mic for Phone Call Bluetooth Technology, Black",
+      "category": "Headphone & Earbuds",
+      "brand": "Sony",
+      "description": "Enjoy deep punchy EXTRA BASS sound in a truly wireless headphone The WF-XB700 truly wireless headphones keep you going with up to 18 hours of battery life plus quick charging 1 The Ergonomic Tri-hold structure provides a secure fit and the IPX4 design gives you long-lasting sound through rain and sweat."
+    },
+    {
+      "name": "Sony WH-1000XM4 Wireless Premium Noise Canceling Overhead Headphones with Mic for Phone-Call and Alexa Voice Control, Midnight Blue WH1000XM4",
+      "category": "Headphone & Earbuds",
+      "brand": "Sony",
+      "description": "Sony’s intelligent industry-leading noise canceling headphones with premium sound elevate your listening experience with the ability to personalize and control everything you hear. Get up to 30 hours of battery life with quick charging capabilities, enjoy an enhanced Smart Listening feature set, and carry conversations hands-free with speak-to-chat."
+    },
+    {
+      "name": "Logitech H390 Wired Headset for PC/Laptop, Stereo Headphones with Noise Cancelling Microphone, USB, In-Line Controls, Works with Chromebook - Black",
+      "category": "Headphone & Earbuds",
+      "brand": "Logitech",
+      "description": "Experience clear internet calls a with simple plug-and-play USB connection and a noise-canceling mic. Rigid left-sided mic boom is moveable and can be tucked out of the way when you're not using it. In-line controls let you control volume or mute without interrupting calls. Laser-tuned drivers deliver enhanced digital audio from your favorite music and games."
+    },
+    {
+      "name": "Logitech Z333 2.1 Speakers – Easy-access Volume Control, Headphone Jack – PC, Mobile Device, TV, DVD/Blueray Player, and Game Console Compatible, Black",
+      "category": "Headphone & Earbuds",
+      "brand": "Logitech",
+      "description": "Logitech Multimedia Speakers z333 deliver 80 watts peak power with a deep bass response adding intensity to your music, movies and games System requirements: Television|Computer|Smartphone|Tablet|Music player|DVD player|Blu-ray player|PlayStation|Xbox|Wii."
+    },
+    {
+      "name": "SONY WI-C200 Wireless Bluetooth Headphones - Black",
+      "category": "Headphone & Earbuds",
+      "brand": "Sony",
+      "description": "3.5mm Earphones in-Ear Stereo Earbuds with Microphone Noise Isolating-29"
+    },
+    {
+      "name": "Official Galaxy S8 InEar Headphones EO-IG955BSEGW Tuned by AKG Remote Mic Earphones- Titanium Grey",
+      "category": "Headphone & Earbuds",
+      "brand": "Samsung",
+      "description": "Official Galaxy S8/S8+ In-Ear Headphones [EO-IG955BSEGWW], Fone-Stuff® – Tuned by AKG, Remote + Mic Hands free Earphones – Titanium Grey"
+    },
+    {
+      "name": "Sony Noise Canceling Headphones WHCH710N: Wireless Bluetooth Over The Ear Headset with Mic for Phone-Call and Alexa Voice Control, Black",
+      "category": "Headphone & Earbuds",
+      "brand": "Sony",
+      "description": "Automatic Artificial Intelligence Noise Canceling function Dual Noise Sensor technology Ambient Sound mode for control of your listening experience Built-in lithium-ion battery - offers up to 35 hours of playback 1.2-inch (30mm) drivers achieve a pure, clear sound Sleek, rounded design with adjustable metal slider Soft, oval-shaped earpads with swivel flat earcups NFC and Bluetooth connectivity Simple button press connects to smartphone's voice assistant"
+    },
+    {
+      "name": "PHILIPS SHP9500 HiFi Precision Stereo Over-Ear Headphones (Black)",
+      "category": "Headphone & Earbuds",
+      "brand": "Philips",
+      "description": "High Precision Sound. Enjoy An Authentic Listening Experience In Style. Created To Offer Outstanding Performance Through Open Back Architecture And High-Precision 50Mm Speaker Drivers."
+    },
+    {
+      "name": "Sony WH-1000XM5 Wireless Industry Leading Headphones with Auto Noise Canceling Optimizer, Crystal Clear Hands-Free Calling, and Alexa Voice Control, Midnight Blue WH1000XM5",
+      "category": "Headphone & Earbuds",
+      "brand": "Sony",
+      "description": "The WH-1000XM5 headphones rewrite the rules for distraction-free listening. The WH1000XM5 has two processors that control 8 microphones for unprecedented noise cancellation and exceptional call quality. With a newly developed driver, DSEE – Extreme and Hires audio support the WH-1000XM5 headphones provide awe-inspiring audio quality."
+    },
+    {
+      "name": "Sony WF-1000XM4 Industry Leading Noise Canceling Truly Wireless Earbud Headphones with Alexa Built-in, Black",
+      "category": "Headphone & Earbuds",
+      "brand": "Sony",
+      "description": "Take the next step in truly wireless noise canceling performance and exceptional sound quality. The new Integrated Processor V1 delivers unmatched performance while using even less power. Adding in drastically enhanced call quality, IPX4 water resistance, and up to 24 hours of battery life with wireless charging, the WF-1000XM4 Truly Wireless Earbuds are unlike any other before them."
+    },
+    {
+      "name": "Xiaomi Mi Smartwatch Black",
+      "category": "Smartwatch",
+      "brand": "Xiaomi",
+      "description": "Health monitoring: stress level, blood oxygenation levels, breathing, body energy, heart rate, sleep tracking Note: Use only the accessories provided to charge the smartwatch and the battery must be fully charged before use."
+    },
+    {
+      "name": "Samsung Gear S2 Smartwatch - Dark Gray",
+      "category": "Smartwatch",
+      "brand": "Samsung",
+      "description": "With elegant curves and premium finishes, the Samsung Gear S2 will turn heads. The circular interface and rotating bezel give you effortless navigation, so you can quickly access the things that are most important to you. This intuitive interface lets you easily access important notifications, texts, and updates from your phone with just a glance at your wrist. The built-in S-Health app tracks your steps, your heart rate, and even gives you a nudge when it’s time to get moving. And with built-in"
+    },
+    {
+      "name": "SAMSUNG Galaxy Watch Active (40MM, GPS, Bluetooth ) Smart Watch with Fitness Tracking, and Sleep Analysis - Black (US Version)",
+      "category": "Smartwatch",
+      "brand": "Samsung",
+      "description": "The lightweight, yet durable Galaxy Watch Active understands the way you work out. With auto workout tracking, you’ll have the power to reach new goals. Plus a suite of apps help you to monitor your stress and sleep while you stay connected. Low Usage: Up to 90 hours. Battery 247mAh (milli-Amp-hour)."
+    },
+    {
+      "name": "SAMSUNG Galaxy Watch 4 44mm Smartwatch with ECG Monitor Tracker for Health, Fitness, Running, Sleep Cycles, GPS Fall Detection, LTE, US Version, Silver",
+      "category": "Smartwatch",
+      "brand": "Samsung",
+      "description": "Crush workouts and all your health goals with Samsung Galaxy Watch4, the smartwatch that gets you. Push yourself to the next level with Auto Workout Tracking, Advanced Run Coaching, and Group Challenges.***** Track heart and lung endurance with oxygen level monitoring.****** Combining style and function, Galaxy Watch4 offers a number of fashionable bands to match your every mood and all day comfort to keep you looking great from the locker room to the conference room. Staying on top of your day "
+    },
+    {
+      "name": "Samsung Gear Fit Smart Watch, Black (US Version)",
+      "category": "Smartwatch",
+      "brand": "Samsung",
+      "description": "The Samsung Gear Fit is the first curved, Super AMOLED wearable device for active lifestyles. Empower your fitness with real-time coaching and heart rate monitoring without sacrificing style or connectivity. Wherever your day takes you, Gear Fit matches any occasion with interchangeable bands and screens so you can look and feel your best. Achieve your fitness goals and improve your overall wellness with smarter monitoring and motivation Interchangeable bands with multiple options. Always-on act"
+    },
+    {
+      "name": "Samsung Galaxy Watch 2019 (46mm) Bluetooth, Wi-Fi, GPS Smartwatch, SM-R800 - International Version (Silver)",
+      "category": "Smartwatch",
+      "brand": "Samsung",
+      "description": "Stay connected on the move with this 46mm Samsung Galaxy Watch. It has Wi-Fi and Bluetooth support and includes 0.75GB of RAM and 4GB of internal storage for music, photos and more. This 46mm Samsung Galaxy Watch comes in silver and uses Gorilla Glass DX+ technology for added protection against accidental fall damage."
+    },
+    {
+      "name": "SAMSUNG Gear Sport Smartwatch (Bluetooth), Black, SM-R600NZKAXAR – US Version with Warranty",
+      "category": "Smartwatch",
+      "brand": "Samsung",
+      "description": "From work to workout, the swim-ready Samsung Gear Sport keeps up with your life. Track your fitness and keep an Eye on calories, all while getting real-time notifications. Access your favorite apps and even control your home and payments right from your Watch. With a modern, innovative design, Gear Sport is ready for your Active life."
+    },
+    {
+      "name": "Samsung Gear S2 Smartwatch - Classic",
+      "category": "Smartwatch",
+      "brand": "Samsung",
+      "description": "With elegant curves and premium finishes, the Samsung Gear S2 classic will turn heads. The circular interface and rotating bezel give you effortless navigation, so you can quickly access the things that are most important to you. This intuitive interface lets you easily access important notifications, texts, and updates from your phone with just a glance at your wrist. Plus, with easily customizable watch faces and a premium 20mm leather watchband, you can create a watch style that is uniquely y"
+    },
+    {
+      "name": "SAMSUNG Galaxy Watch 4 Classic 46mm Smartwatch with ECG Monitor Tracker for Health, Fitness, Running, Sleep Cycles, GPS Fall Detection, Bluetooth, US Version, Silver",
+      "category": "Smartwatch",
+      "brand": "Samsung",
+      "description": "Your style. Your health. Look good and feel great with your smart, new companion, Samsung Galaxy Watch4 Classic. Make a stylish statement with an iconic silhouette and stainless steel casing, while your watch keeps you in tune with your health and pushes your fitness goals further. Make the most of every run with advanced coaching and oxygen level monitoring***** that help you exercise smarter while increasing endurance. Leave your phone behind while staying connected — call, text and stream mus"
+    },
+    {
+      "name": "SAMSUNG Galaxy Watch 4 40mm R860 Smartwatch GPS Bluetooth WiFi (International Version) (Pink)",
+      "category": "Smartwatch",
+      "brand": "Samsung",
+      "description": "MAKE EVERY WORKOUT COUNT: Get the most out of every exercise session with advanced workout tracking that recognizes 6 popular activities, from running to rowing to swimming, automatically in just 3 minutes; Stay motivated by connecting to live coaching sessions via your smartphone or to dynamic Group Challenges with your friends"
+    },
+    {
+      "name": "JBL GO2 - Waterproof Ultra Portable Bluetooth Speaker - Cinnamon",
+      "category": "Speaker",
+      "brand": "JBL",
+      "description": "Grab and go.The JBL GO 2 is a full-featured waterproof Bluetooth speaker to take with you everywhere. Wirelessly stream music via Bluetooth for up to 5 hours of continuous JBL quality sound. Making a splash with its new IPX7 waterproof design, GO 2 gives music lovers the opportunity to bring their speaker poolside, or to the beach. GO 2 also offers crystal clear phone call experience with its built-in noise-cancelling speakerphone. Crafted in a compact design with 12 eye-catching colors to choos"
+    },
+    {
+      "name": "Z 120 Notebook Speaker USB bla",
+      "category": "Speaker",
+      "brand": "Logitech",
+      "description": "This is the Logitech Speaker 2.0 Wired 3.5 mm 1.2 W Black/White [LGT-Z120] These compact, USB-powered speakers with integrated power and volume controls make it simple to connect just about any audio source. So it s easy to enjoy your favorite music, videos and more."
+    },
+    {
+      "name": "Logitech Z207 2.0 Multi Device Stereo Speaker (Black), 9.5\" x 3.5\" x 4.9&Quot;",
+      "category": "Speaker",
+      "brand": "Logitech",
+      "description": "Enjoy rich stereo sound at your desk from Logitech Z207 Bluetooth computer speakers. System Requirements: TelevisionComputerSmartphoneTabletMusic player"
+    },
+    {
+      "name": "Logitech Multimedia Speakers Z150 with Stereo Sound for Multiple Devices, Black",
+      "category": "Speaker",
+      "brand": "Logitech",
+      "description": "Enlarge Logitech Multimedia Speakers Z150 (Black) Small Size. Clear Sound. Also available in white Reliable and affordable, these compact speakers make it easy to listen to your music, movies and videos from multiple devices in clear, rich stereo sound. With two audio inputs, you can plug in your smartphone, tablet or laptop—or even two of them at the same time. On-speaker volume and power plus a headphone jack make listening a pleasure, out loud or in total privacy. Product Highlights Clear, ri"
+    },
+    {
+      "name": "Sony Compact and Portable Waterproof Wireless Speaker with Extra Bass - Black",
+      "category": "Speaker",
+      "brand": "Sony",
+      "description": "Take your beats wherever you go with Sony’s SRS-XB12 portable wireless speaker. It features EXTRA BASS technology to bring out the very most from your tunes. With its deep bass, it’s perfect for your dance hits and club favourites. A passive radiator dials up low-end tones, delivering big sound despite the speaker’s compact size. The Sony SRS XB12 is Bluetooth compatible, so you can easily connect from your mobile device. Simply pair with your speaker and you’re ready to start streaming your fav"
+    },
+    {
+      "name": "JBL CLUB4020 4\" 180W Club Series 2-Way Coaxial Car Speaker",
+      "category": "Speaker",
+      "brand": "JBL",
+      "description": "High-sensitivity design. High quality product. Manufactured in Mexico. The product is of good quality."
+    },
+    {
+      "name": "Sony HT-S350 Soundbar with Wireless Subwoofer: S350 2.1ch Sound Bar and Powerful Subwoofer - Home Theater Surround Sound Speaker System for TV - Blutooth and HDMI Arc Compatible Bar Black",
+      "category": "Speaker",
+      "brand": "Sony",
+      "description": "Enjoy deeper, richer bass and immersive surround sound With this S350 2. 1Ch sound bar. A wireless subwoofer, 320W total output, and HDMI ARC one-cable connection make it perfect for the essential home theater. Simple to set-up and beautiful to look at, this sound bar brings S-Force Pro front Surround to your content for a cinematic audio experience. Refer user guide / user manual below for information."
+    },
+    {
+      "name": "JBL JR POP - Waterproof portable Bluetooths Speaker Designed for Kids - Red, JBLJRPOPREDAM",
+      "category": "Speaker",
+      "brand": "JBL",
+      "description": "Kids can party like a Popstar with the JBL JR POP Bluetooth speaker. Parents don’t need to worry because it is built with durable materials and is even fully waterproof. Packed with a rechargeable battery to enjoy up to 5 hours of playtime. The fun built-in light mode will engage young music fans with the music. Ultra-portable with strap and sized for little hands. Plus, JBL JR POP delivers great JBL signature sound and is tough enough to handle the playground with ease."
+    },
+    {
+      "name": "Logitech S120 2.0 Stereo Speakers, Black",
+      "category": "Speaker",
+      "brand": "Logitech",
+      "description": "Logitech S120 Speakers"
+    },
+    {
+      "name": "JBL GO 2 Portable Waterproof Bluetooth Speaker (Midnight Black)",
+      "category": "Speaker",
+      "brand": "JBL",
+      "description": "Wireless Bluetooth technology stream audio from up to 33' Away can double as a speakerphone water-resistant in up to 3.3' Of water IPX7 rated built-in noise-cancelling technology 3.5mm input for wired device connection rechargeable lithium-ion polymer battery up to 5 hours of playback"
+    },
+    {
+      "name": "Xiaomi Redmi Note 12 4G LTE (128GB + 4GB) Global Unlocked 6.67\" 50MP Triple (ONLY T-Moble/Tello/Mint USA Market) + (w/ 33W Fast Car Dual Charger Bundle) (Ice Blue Global + 33W Car Charger)",
+      "category": "Charger & Power Bank",
+      "brand": "Xiaomi",
+      "description": "Redmi Note 12 is future-ready with the new generation Dual 4g support. Download an entire season to watch offline, upload large files in seconds, watch high-resolution videos without buffer, go lag-free on the battleground and enjoy crystal clear video calls with 4G revolution. Super Smooth Super Fast Display The 16.94cm (6.67) 120Hz Super AMOLED display delivers vivid picture quality and sharp details. With this segment* leading display watch every movie scene come to life with perfect blacks a"
+    },
+    {
+      "name": "Xiaomi Redmi 10 4G LTE GSM Global Version Unlocked 6.5\" 50MP Quad Camera (Not Verizon Sprint Boost Cricket) + Fast Car Charger Bundle (Carbon Gray, 128GB + 4GB)",
+      "category": "Charger & Power Bank",
+      "brand": "Xiaomi",
+      "description": "Level Up！50MP AI quad camera | 90Hz FHD+ display Always camera-readyWith the AI quad camera, you are well-equipped for any situation. NEXT-LEVEL EXPERIENCESmoother scrollingWith a high 90Hz refresh rate you can enjoy a smoother, more fluid viewing experience when scrolling or playing games. Power-saving AdaptiveSyncAdaptiveSync, usually only available in flagship phones, automatically matches the refresh rate to the frame rate of the content, offering a smoother result while extending the batter"
+    },
+    {
+      "name": "Xiaomi Redmi Note 11 Pro+ Plus 5G + 4G Global 128GB + 6GB Unlocked 6.67\" 108MP Camera Night Mode (Not Verizon Sprint Boost Cricket Metro At&T) + (w/Fast Car 51W Charger Bundle) (Graphite Gray)",
+      "category": "Charger & Power Bank",
+      "brand": "Xiaomi",
+      "description": "108MP Powerhouse120Hz FHD+ AMOLED DotDisplay67W turbo chargingFor those who want the ultimate experience，Snapdragon® 695 5G processor is ready.5G ArrivedChange the way you experience and share content with the power of 5G speed.Enjoy super-smooth gaming and streaming as well as ultra-fast sharing and downloading. 108MP main camera Advanced to matureGreat 108MP flagship imaging system.Three cameras work together to capture magnificent landscapes, microcosms, stunning night scenes, high-level port"
+    },
+    {
+      "name": "Xiaomi Note 10 5G + 4G LTE Volte Global Unlocked GSM 128GB + 4GB 48MP Triple Camera Worldwide GSM (NOT Verizon Boost Cricket)- Fast Car Charger Bundle (Nighttime Blue)",
+      "category": "Charger & Power Bank",
+      "brand": "Xiaomi",
+      "description": "Challenge Your Boundaries with the Redmi Note 10 Series: From Antarctica to space, the Redmi Note Series has taken on the world. Our attitude is to challenge and exceed expectations again and again. Now it's your turn! Challenge your boundaries and find out what you are capable of. 6.5\" FHD+ AdaptiveSync Display: The 90Hz refresh rate means that the screen will display 90 frames per second, which is 50% more frames than normal smartphones with 60Hz displays. 360° light sensorsAdjusting to your s"
+    },
+    {
+      "name": "Xiaomi Redmi Note 11 Pro 5G + 4G Volte 128GB + 6GB Factory Unlocked 6.67\" 108MP Camera Night Mode (Not Verizon Sprint Boost Cricket Metro At&T) + (w/Fast Car Charger Bundle) (Atlantic Blue)",
+      "category": "Charger & Power Bank",
+      "brand": "Xiaomi",
+      "description": "108MP Powerhouse120Hz FHD+ AMOLED DotDisplay67W turbo charging Smoother, faster and more efficient For those who want the ultimate experience，Snapdragon® 695 5G processor is ready. 5G ArrivedChange the way you experience and share content with the power of 5G speed.Enjoy super-smooth gaming and streaming as well as ultra-fast sharing and downloading. Great 108MP flagship imaging system.Three cameras work together to capture magnificent landscapes, microcosms, stunning night scenes, high-level po"
+    },
+    {
+      "name": "Anker USB C Power Bank, PowerCore Essential 20000 PD (18W) Power Bank, High Cell Capacity 20000mAh Portable Charger Battery Pack for iPhone 12/Mini/Pro/Max Pro/11/X, Samsung (PD Charger Not Included)",
+      "category": "Charger & Power Bank",
+      "brand": "Anker",
+      "description": "Model Number: A1281PowerCore Essential 20000 PDThe 20,000mAh Portable Charger with Power DeliveryFrom ANKER, America's Leading USB Charging Brand• Faster and safer charging with our advanced technology• 50 million+ happy users and countingPower for DaysWith a 20,000mAh cell capacity, you can easily keep all of your mobile devices charged up for days on end. You'll wonder how you ever spent so much time plugged into the wall.Advanced Charging Technology: The USB-C Power Delivery port supports bot"
+    },
+    {
+      "name": "Xiaomi Poco X5 5G, Dual SIM, 265GB + 8GB, Factory Unlocked GSM, International Version (Fast Car Charger Bundle)- No Warranty - Black",
+      "category": "Charger & Power Bank",
+      "brand": "Xiaomi",
+      "description": "The dimension of the smartphone is 165.9 x 76.2 x 8 mm. The smartphone is powered by the Qualcomm SM6375 Snapdragon 695 5G Octa-core processor while the GPU is Adreno 619.The display of the smartphone comes with a 6.67 inches Samsung AMOLED and 1080 x 2400 pixels resolution. The device is a built-in non-removable Li-Po 5000 mAh battery + 33W wired.The sensors include a side-mounted fingerprint, accelerometer, gyro, proximity, and compass."
+    },
+    {
+      "name": "Xiaomi Poco X5 PRO 5G + 4G Volte Global Unlocked 256GB + 8GB GSM 6.67\" 108 mp Triple Camera (ONLY Tmobile Mint Tello USA Market) + (Car Fast Car 51W Charger Bundle) (Black)",
+      "category": "Charger & Power Bank",
+      "brand": "Xiaomi",
+      "description": "The dimension of the smartphone is 165.9 x 76.2 x 8 mm. The smartphone is powered by the Qualcomm SM6375 Snapdragon 695 5G Octa-core processor while the GPU is Adreno 619.The display of the smartphone comes with a 6.67 inches Samsung AMOLED and 1080 x 2400 pixels resolution. The device is a built-in non-removable Li-Po 5000 mAh battery + 67W wired.The sensors include a side-mounted fingerprint, accelerometer, gyro, proximity, and compass."
+    },
+    {
+      "name": "SAMSUNG 10,000 mAh Super Fast 25W Portable Wireless Charger Charger Battery Pack USB-C, Silver (US Version with Warranty) (EB-U3300XJEGUS)",
+      "category": "Charger & Power Bank",
+      "brand": "Samsung",
+      "description": "On-the-go power meets wireless charging. The Wireless Charger Portable Battery 25W quickly and conveniently charges your smartphone or Galaxy Watch Active2, so you don’t have to worry even when there’s no outlet in sight."
+    },
+    {
+      "name": "Xiaomi 11T PRO 5G + 4G Volte (256GB, 8GB) 6.67” 108MP Triple Camera, NFC Dual SIM (Not Compatible Verizon Sprint Boost Metro Cricket) GSM Unlocked Global (w/Fast Car Charger Bundle) (Meteorite Gray)",
+      "category": "Charger & Power Bank",
+      "brand": "Xiaomi",
+      "description": "One-click AI cinemaMultiple computational videography effects and one-tap switch. It's time to take your creativity to the next level! Perfectly record any interesting sounds with Audio ZoomThree simultaneously operating microphones allow you to get audibly closer to your subject as you zoom in on a video. 108MP pro-grade cameraRemarkable hardware strength and professional algorithm tuning provides you with amazing picture resolution and texture in both light and dark environments 120° ultra-wid"
+    },
+    {
+      "name": "Apple Smart Keyboard (for 10.5-Inch iPad Pro) - Portuguese",
+      "category": "Computer Accessories",
+      "brand": "Apple",
+      "description": "Smart Keyboard lets you write a term paper or create a presentation on a full-size keyboard whenever you need one. It connects easily without the need for pairing or charging, so it’s always ready to go. And when you’re done, it folds to create a slim, lightweight cover."
+    },
+    {
+      "name": "Lenovo GX30M39704 300 - Mouse - Right And Left-Handed - Wired - Usb - For 320 Touch-15, 320-14, 320-17, 520-22, 520-24, 520-27, 720-18, Legion Y520-15, V110-15 black",
+      "category": "Computer Accessories",
+      "brand": "Lenovo",
+      "description": "The Lenovo 300 USB Mouse is perfect for the office, school, or home – anywhere that you need a computer mouse that just works. Simple and easy to use, this USB optical mouse sports a clean and streamlined design that feels just right in the hand. The ergonomic full-size design provides a comfortable grip for all-day comfort. This USB mouse offers an ambidextrous shape, so it's easy to use with either the left or right hand. An easy plug-and-play connection to PCs, this corded USB mouse requires "
+    },
+    {
+      "name": "SAMSUNG ELECTRONICS EVO Select 256GB MicroSDXC UHS-I U3 100MB/s Full HD & 4K UHD Memory Card with Adapter (MB-ME256HA)",
+      "category": "Computer Accessories",
+      "brand": "Samsung",
+      "description": "With stunning speed and reliability, the Samsung 512GB microSDXC EVO Select memory card lets you get the most out of your devices. Ultra-fast read and write speeds of up to 100MB/s and 90MB/s and backed by 4-proof protection, keep your data safe against water, extreme temperatures, and other harsh conditions. Feel confident to capture, store and transfer 4K UHD videos, photos, music and other large files effortlessly. Your memories and adventures are irreplaceable, and now unforgettable."
+    },
+    {
+      "name": "Logitech MK735 Performance Wireless Keyboard & Mouse Combo",
+      "category": "Computer Accessories",
+      "brand": "Logitech",
+      "description": "The Logitech Wireless Desktop MK735. Where comfort and productivity go hand-in-hand. This low-profile keyboard features concave Logitech Incurve keys that position your fingers properly, and their softly rounded edges invite your fingertips to glide from key to key. Note: Series (MK735) is a combination of 2 products (K710 keyboard and M510 Mouse)."
+    },
+    {
+      "name": "Samsung EVO 64GB 48/MB/s Micro SDXC Memory Card with Adapter up to (MB-MP64DA/AM)",
+      "category": "Computer Accessories",
+      "brand": "Samsung",
+      "description": "Samsung microSD 64GB EVO Memory Card Save the moments of a lifetime. For a lifetime. Get the most out of your smartphone or tablet PC with Samsung's EVO 64GB microSD Memory Card. This high-performance memory card features read speeds of up to 48 MB/s for transferring music, photos, and videos and is UHS-1 enabled to capture Full HD video. Waterproof, temperature proof, magnet proof, and X-ray proof, this reliable memory card ensures your files remain safe during life's little mishaps. An include"
+    },
+    {
+      "name": "Logitech C920 Hd Pro Webcam (Black) Black",
+      "category": "Computer Accessories",
+      "brand": "Logitech",
+      "description": "Full HD 1080p video that's faster, smoother and works on more computers. Skype in Full HD 1080p Get breathtaking Full HD 1080p video calls on Skype for the sharpest video-calling experience. Smoother. Sharper. Richer. Clearer. Logitech Fluid Crystal Technology. It's what makes a Logitech webcam better. It's smoother video, sharper pictures, richer colors and clearer sound in real-world conditions. Call in HD 720p Enjoy widescreen HD 720p video on most major IMs and Logitech Vid HD. HD your Faceb"
+    },
+    {
+      "name": "Logitech K845 Mechanical Illuminated Keyboard, Strong Adjustable Tilt Legs, Full Size, Aluminum Top Case, 104 Keys, USB Corded, Windows (TTC Red Switches)",
+      "category": "Computer Accessories",
+      "brand": "Logitech",
+      "description": "The K845 Mechanical Illuminated is a keyboard that melds precise mechanics with a modern aluminum design. Type comfortably with an adjustable tilt and mechanical key switches of your choice. 5 backlighting options let you customize your experience so you can type for hours — day or night. A durable design features long-life switches, moulded long-lasting characters, and an aluminum top case for modern productivity that lasts. It’s the typing feeling you love — now designed for work."
+    },
+    {
+      "name": "Logitech M100 Wired USB Mouse, 3-Buttons, 1000 DPI Optical Tracking, Ambidextrous PC / Mac / Laptop - Dark / Black",
+      "category": "Computer Accessories",
+      "brand": "Logitech",
+      "description": "M100, Ambidextrous, Optical, USB Type-A, 1000 DPI, Gray"
+    },
+    {
+      "name": "Logitech M510 Wireless Computer Mouse – Comfortable Shape with USB Unifying Receiver, Back/Forward Buttons and Side-to-Side Scrolling - Red",
+      "category": "Computer Accessories",
+      "brand": "Logitech",
+      "description": "With its contoured shape, soft rubber grips and handy controls, the Logitech Wireless Mouse M510 gives you more control, so you can do more with your mouse. System Requirements: Windows 10 Windows 8 Windows 7|Chrome OS|Linux Kernel 2.6+|USB port."
+    },
+    {
+      "name": "Logitech Hd Webcam C270, 720p Widescreen Video Calling & Recording (960-000694), 3.15 Lb",
+      "category": "Computer Accessories",
+      "brand": "Logitech",
+      "description": "HD 720p webcam provides simple video calling on most major instant messaging applications. Built-in mic with noise reduction gives you clear conversations without annoying background noise. Even if you make a video call in dim or poorly backlit settings, the automatic light correction will intuitively adjust to produce the best possible image. Fluid Crystal technology provides smoother videos, sharper pictures, richer colors and clearer sound in real-world conditions. Instant messaging compat"
+    },
+    {
+      "name": "ZAGG InvisibleShield Glass Elite Privacy+ - Anti-microbial - Privacy Screen Protector for iPhone 12 Mini – 3X Impact Protection (200106679)",
+      "category": "Phone Accessories",
+      "brand": "ZAGG",
+      "description": "Glass Elite Privacy protects your screen from scratches, shatter damage, and prying eyes. We’ve added a two-way filter to our strongest, most advanced glass screen protection, so you get full-screen privacy when its viewed from the side. Our exclusive ClearPrint technology keeps your screen looking pristine, and the beveled edges of the screen protection blend into the clean lines of your phone."
+    },
+    {
+      "name": "ZAGG InvisibleShield Glass+ Screen Protector – High-Definition Tempered Glass Made for Apple iPhone 11 – Impact & Scratch Protection",
+      "category": "Phone Accessories",
+      "brand": "ZAGG",
+      "description": "Two times stronger than most tempered glass, invisible Shield Glass+ features ion matrix technology - Premium impact and scratch protection that helps preserve every pixel. Crystal clear and easy to clean, glass+ Uses long-lasting, oil-resistant technology that prevents fingerprint smudges so you can enjoy HD clarity all day long. With the easiest application process on the market and a limited lifetime you can count on, invisible Shield Glass+ is the clearest choice for your device. A proprieta"
+    },
+    {
+      "name": "Belkin Privacy Tempered Glass Screen Protector for iPhone 13 and 13 Pro, Treated Surface with Anti-Fingerprint Coating and Bubble Free Application with Included Easy Align Tray",
+      "category": "Phone Accessories",
+      "brand": "Belkin",
+      "description": "Protect your iPhone screen with this tempered glass screen protector that provides resilient, hard-wearing protection while retaining the smooth glide and native feel of your tablet. Manufactured using high-quality Japanese Asahi glass famed for transparency and quality, it preserves the clarity and detail you expect from your iPad screen. The tempering process provides added strength for advanced impact and scratch protection to withstand daily wear and tear. The authentic glass material has a "
+    },
+    {
+      "name": "TORRAS Crystal Clear Compatible for iPhone Xs Max Case, [Non-Yellowing] Soft Silicone Shockproof TPU Slim Thin Protective Phone Cover Case for iPhone Xs Max 6.5 inch, Gold",
+      "category": "Phone Accessories",
+      "brand": "Torras",
+      "description": "TORRAS iPhone Xs Max Clear case with gold edge, your best match for gold iPhone Xs Max!"
+    },
+    {
+      "name": "ZAGG InvisibleShield Glass Elite Screen Protector for Apple iPhone 14 Plus - 5X Shatter Protection, Anti-Fingerprint Technology, Easy to Install",
+      "category": "Phone Accessories",
+      "brand": "ZAGG",
+      "description": "ZAGG InvisibleShield Glass Elite Screen Protector for Apple iPhone 13 Pro Max, 5X Shatter Protection, Anti-Microbial Treatment, Anti-Fingerprint Technology, Easy to Install."
+    },
+    {
+      "name": "Belkin iPhone 12 Pro Max Screen Protector TemperedGlass Privacy Antimicrobial-Treated, Clear (OVA031zz)",
+      "category": "Phone Accessories",
+      "brand": "Belkin",
+      "description": "Tempered Glass Privacy Anti-Microbial Screen Protector offers advanced protection from impacts, scratches, and nosy onlookers. The privacy feature blacks out your screen from the sides in portrait mode, while still allowing you to share content when you want to in landscape. A new, anti-microbial coating reduces 99% of bacterial growth on your screen, without sacrificing touchscreen response or clarity. Based on third party lab results conducted under the JIS Z 2801-2010 test standard. Contains "
+    },
+    {
+      "name": "ZAGG InvisibleShield Glass+ Screen Protector – High-definition Tempered Glass Made for Apple iPhone 11 Pro Max – Impact & Scratch Protection",
+      "category": "Phone Accessories",
+      "brand": "ZAGG",
+      "description": "Two times stronger than most tempered glass, invisible Shield Glass+ features ion matrix technology - Premium impact and scratch protection that helps preserve every pixel. Crystal clear and easy to clean, glass+ Uses long-lasting, oil-resistant technology that prevents fingerprint smudges so you can enjoy HD clarity all day long. With the easiest application process on the market and a limited lifetime you can count on, invisible Shield Glass+ is the clearest choice for your device. A proprieta"
+    },
+    {
+      "name": "ZAGG InvisibleShield Glass Elite Plus Screen Protector - Made for iPhone 12 Mini - Case Friendly Screen - Impact & Scratch Protection, Clear, 200106645",
+      "category": "Phone Accessories",
+      "brand": "ZAGG",
+      "description": "Glass Elite+ is the next step in the evolution of unbeatable glass screen protection. Ion exchange technology increases strength and durability. And ClearPrint, an oil-diffusion treatment exclusive to InvisibleShield, makes fingerprints disappear from your screen."
+    },
+    {
+      "name": "SAMSUNG Galaxy Z Fold 3 Phone Case with S Pen, Protective Cover, Heavy Duty, Shockproof Smartphone Protector, US Version, Black,EF-FF92PCBEGUS",
+      "category": "Phone Accessories",
+      "brand": "Samsung",
+      "description": "The Galaxy Z Fold 3 Flip Cover with Pen has been upgraded to suit the new Galaxy Z Fold 3, including an S Pen Fold Edition along with a dedicated holder. Plus, the Galaxy Z Fold 3 Flip Cover with Pen is treated with a coating to keep your case clean."
+    },
+    {
+      "name": "ZAGG Invisible Shield Glass+ Screen Protector for Apple iPhone 14 Pro Max - Impact & Scratch Protection, Easy to Install",
+      "category": "Phone Accessories",
+      "brand": "ZAGG",
+      "description": "With the innovative Ion Matrix Technology to improve strength and protection, InvisibleShield Glass+ Screen Protector provides 3 times the shatter protection compared to an unprotected screen. The ZAGG iPhone 14 Pro Max Screen Protector is scratch-resistant and features reinforced edges to protect your iPhone and the near-perfect surface finish makes the screen feel like new. With an oil-resistant technology, the surface of the tempered glass phone protector prevents fingerprint marks, smudges, "
+    }
+  ]
+}

@@ -15,16 +15,18 @@ flowchart TD
         API[Versioned API routers]
         API --> Recommendation[Recommendation Module]
         API --> Agent[Agent Module]
-        Agent -. future product retrieval .-> Client[Shared Backend HTTP client]
+        Agent -->|SWE-165 read-only product tools| Client[Shared Backend HTTP client]
         Recommendation -. future history and product retrieval .-> Client
     end
-    Client -. proposed HTTP REST APIs .-> Backend
+    Client -->|GET /api/products and /api/products/id| Backend
     Backend --> DB[(Backend-owned database)]
 ```
 
-Solid arrows show the intended request entry path; dotted arrows are future
-integrations. Currently both feature endpoints return placeholders and make no
-outbound requests. The diagram does not imply an existing Backend API contract.
+Solid arrows include the implemented internal agent's catalog reads; dotted arrows
+are future integrations. Legacy public chat/recommendation routes remain placeholders;
+the chat router does not invoke the agent. Protected recommendation inference is
+documented separately above. See [SWE-165](backend-catalog-integration.md) for the actual
+Backend API mappings and pending future-contract decisions.
 
 ## Ownership and module boundaries
 
@@ -60,16 +62,17 @@ operational.
 The Backend client uses a configurable HTTP(S) base URL and positive timeout,
 reuses connections, and raises `httpx.HTTPStatusError` for non-success responses.
 Timeouts and network failures remain `httpx.TimeoutException`/`httpx.RequestError`.
-There are no automatic retries. When real calls are introduced, feature code must
-translate failures into an agreed API error response without exposing Backend
-payloads or credentials. No current feature endpoint uses this client.
+There are no automatic retries. `BackendProductProvider` translates catalog
+failures into bounded tool outcomes without exposing upstream payloads/errors.
+No public chat endpoint uses this client; generated-chat HTTP error mapping remains pending.
 
 The [SWE-69 Agent–Backend contract proposal](backend-api-contract-proposal.md) and
 [draft payload schema](schemas/backend-api-contract-proposal.schema.json) describe
 a review target, not deployed Backend routes or approved changes. Auth, route
 mapping, correlation, budgets and generated chat/error responses still require
 both teams' agreement and implementation. CURRENT placeholder behavior remains
-authoritative; the proposal does not enable a real product provider.
+authoritative. SWE-165 separately implements a provider for the actual public
+catalog routes and response DTOs, without approving that future proposal.
 
 ### LLM connection layer
 
@@ -114,18 +117,20 @@ Cancellation from the caller is preserved. The core does not log messages or
 provider details.
 
 Without catalog access, the system prompt requests general guidance and clarifying
-questions. Every `AgentResult.answer` has a fixed unavailable/unverified catalog
-notice, and `catalog_verified` is always false. This labels advice as unverified;
-it does not prove model factuality. Grounded product/price/stock answers require
-authoritative Backend tools and separate evaluation before public integration.
+questions, with an unavailable/unverified notice. SWE-165 retains request-local
+`catalog_evidence` and selects verified/partial/unavailable wording from all attempted
+tool outcomes. `catalog_verified` describes Backend lookup evidence, not generated
+prose or facts absent from the API such as stock. See [evidence semantics](backend-catalog-integration.md#outcomes-and-evidence).
 
 ### Read-only tool calling — SWE-68
 
 `ToolRegistry` exposes names, generated definitions and validated async dispatch.
 `create_product_tools(provider)` registers `search_products` and `get_product_details`
 against an injected `ProductProvider`. Without a provider it returns explicit
-`not_available` results. Only fake/unavailable sources are supported in this phase;
-no Backend URLs, database access or business actions are implemented.
+`not_available` results. SWE-165 adds `BackendProductProvider` for the existing
+public catalog GETs, alongside fake/unavailable sources. Lifespan wires
+`app.state.shopping_agent` to the shared Backend and LLM pools. No database access
+or business actions are implemented.
 
 `LLMClient.complete()` retains its text-only contract. The optional
 `ToolCallingLLMClient.complete_with_tools()` adds typed assistant function calls and
@@ -147,12 +152,12 @@ have size/control-character validation; extra provider fields are discarded.
 Free text remains untrusted data, not a semantic prompt-injection filter. Error
 payloads contain fixed codes, never exception details. Fake data does not change
 `catalog_verified=False` or the catalog-unavailable notice. See [tools](tools.md)
-for the provider boundary to implement after SWE-69 approval.
+for the implemented provider boundary and future SWE-69 decisions.
 
 ### Prompt structure
 
 `agent/prompts/system.py` defines `SYSTEM_PROMPT_VERSION` and a concise Vietnamese-first
-`SYSTEM_PROMPT`. Version 1.1.0 selects trusted no-tool/tool-capable context through
+`SYSTEM_PROMPT`. Version 1.2.0 selects trusted no-tool/tool-capable context through
 `system_prompt(with_tools=...)`. It covers needs discovery, explanation and evidence-based comparisons,
 grounding, unavailable capabilities, privacy, permitted actions and untrusted input.
 `prompts/builder.py:build_messages()` validates history order and constructs fresh

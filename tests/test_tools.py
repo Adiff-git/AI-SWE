@@ -106,9 +106,9 @@ def test_duplicate_and_mutating_tools_are_rejected() -> None:
         registry.register(
             Tool("delete_cart", "Mutation", ProductDetailsArgs, no_result, "fake", read_only=False)
         )
-    with pytest.raises(ValueError, match="fake/unavailable"):
+    with pytest.raises(ValueError, match="read-only"):
         registry.register(
-            Tool("live_catalog", "Not approved", ProductDetailsArgs, no_result, "backend")
+            Tool("unknown_source", "Invalid source", ProductDetailsArgs, no_result, "unknown")
         )
 
 
@@ -182,7 +182,7 @@ def test_unavailable_is_not_an_empty_search_or_missing_record() -> None:
         '{"query":"x","max_price":-1,"currency":"VND"}',
         '{"query":"x","min_price":2,"max_price":1,"currency":"VND"}',
         '{"query":"x","max_price":15}',
-        '{"query":"x","max_price":"15","currency":"VND"}',
+        '{"query":"x","max_price":"not-money","currency":"VND"}',
         '{"query":"x","max_price":15,"currency":"vnd"}',
         "[" * 1500 + "]" * 1500,
     ],

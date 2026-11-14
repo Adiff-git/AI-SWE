@@ -245,18 +245,19 @@ to 30 seconds (`ShoppingAgent(llm, timeout=...)`); it is distinct from HTTPX's
 per-operation `LLM_TIMEOUT`. Input is rejected rather than silently truncated.
 The reply limit is checked after generation, not a provider token budget.
 
-`AgentResult.answer` always includes a fixed Vietnamese catalog-unavailable notice,
-and `catalog_verified` is always `false`. System prompt version `1.1.0` requests
+Without Backend lookup evidence, `AgentResult.answer` includes a fixed Vietnamese
+catalog-unavailable notice and `catalog_verified=false`. Tool mode retains
+request-local `catalog_evidence` and distinguishes verified Backend lookup outcomes
+from partial, fake or unavailable data. System prompt version `1.2.0` requests
 concise Vietnamese-first guidance and clarifying questions, with explicit grounding,
 privacy, instruction-priority and action limits. `prompts.build_messages()` creates
 separate system/user/assistant messages; it never interpolates user content into
 system policy. Prompt version/content are trusted code constants, not user input.
 See [prompt revisions and manual evaluation](docs/prompts.md) for examples,
 expected behavior and tool-result boundaries.
-This is unverified model advice: unit tests establish orchestration and output
-labeling, not factual accuracy or a guarantee against model hallucinations. Real
-product/price/stock claims require authoritative Backend data and further grounding
-work before exposing the core through HTTP.
+Unit tests establish orchestration, validated Backend mappings and output labeling,
+not certification of generated prose or a guarantee against model hallucinations.
+Stock is not supplied by the current catalog API and is never inferred.
 
 Invalid input schemas raise Pydantic `ValidationError`; invalid history order or
 input budget raises `AgentInputError`. LLM failures map to `AgentLLMError`, invalid,
@@ -284,8 +285,25 @@ serialized call metadata, schemas and results. The final allowed LLM turn sets
 `tool_choice="none"`; further calls are rejected. Controlled errors can be returned
 to the LLM for correction within these limits.
 
-See [tool definitions, offline sample and SWE-69 boundary](docs/tools.md).
-There is no real Backend endpoint integration or cart/order/payment mutation.
+### Backend catalog integration — SWE-165
+
+`BackendProductProvider` connects these tools to actual `GET /api/products` and
+`GET /api/products/{id}` responses. Application lifespan exposes a configured
+`app.state.shopping_agent` using the existing shared HTTPX and LLM clients. To wire
+a standalone instance with a caller-owned Backend client:
+
+```python
+from ai_service.agent.orchestrator import ShoppingAgent
+from ai_service.agent.tools import BackendProductProvider, create_product_tools
+
+agent = ShoppingAgent(llm, tools=create_product_tools(BackendProductProvider(backend_client)))
+```
+
+The adapter preserves product/category/variant IDs, exact integer VND prices as
+decimal-string tool output, image URLs, typed specifications and pagination/truncation.
+Comparison uses multiple details calls; variant facts stay associated with their IDs.
+See [implemented behavior, Backend source inspection and remaining contract decisions](docs/backend-catalog-integration.md)
+and [tool definitions/offline sample](docs/tools.md). No cart/order/payment mutation.
 The public `/api/v1/chat` response remains unchanged until its generated-answer
 shape and error mapping are agreed.
 
@@ -363,16 +381,17 @@ is a review-ready **DRAFT / PROPOSED**, with schema-checked synthetic examples a
 a [Decision Needed From Backend Team table](docs/backend-api-contract-proposal.md#8-decision-needed-from-backend-team).
 It does not approve Backend paths or change the current chat placeholder. See
 [CURRENT API behavior](docs/api-contracts.md) separately from future success/error
-payloads. Auth, pagination, money, availability and HTTP mapping still require
-agreement and implementation; cart/order/payment mutation is outside the MVP.
+payloads. SWE-165 implements the existing public catalog's routes, numbered pages
+and exact VND mappings; future service auth, cursor APIs, availability/freshness and
+chat HTTP mapping still require agreement. Cart/order/payment mutation is outside scope.
 
 The application lifespan owns a reusable Backend `httpx.AsyncClient`, exposed as
 `app.state.backend_client`, and a separate LLM HTTP pool through
 `app.state.llm_client`. Both close at shutdown, and creation performs no network
 I/O. The Backend client has a configured base URL and timeout, rejects unsuccessful
-HTTP status codes, and preserves HTTPX connection/timeout exceptions. No Backend
-paths or product methods are assumed. Future feature code can receive the shared
-client through a FastAPI dependency once it is needed.
+HTTP status codes, and preserves HTTPX connection/timeout exceptions.
+`BackendProductProvider` reuses that client with fixed catalog GET paths and bounded
+response reads; the lifespan injects its tools into `app.state.shopping_agent`.
 
 Backend authenticates Customers and sends minimized request-scoped data to the protected
 `/internal/recommendations/*` endpoints. AI service authentication uses an environment
@@ -383,7 +402,8 @@ See the [canonical inference contract and algorithm](docs/recommendation.md).
 See [architecture](docs/architecture.md) and
 [proposed API contracts](docs/api-contracts.md). The LLM connection layer and agent
 core are available independently; feature endpoints do not invoke them. Read-only
-product interfaces use fake/unavailable sources pending SWE-69 contract approval.
+product interfaces support Backend/fake/unavailable sources; the future SWE-69
+internal API and generated chat contract remain proposals.
 The hybrid recommendation engine is implemented; conversation memory and AI-owned
 business database models/migrations remain outside this service.
 

@@ -6,8 +6,9 @@
 > Existing agent contracts and legacy route responses retain their documented behavior.
 
 The routes and placeholder payloads labeled **CURRENT** below are implemented.
-They are not completed recommendation/chat features. Future Backend integration
-is **PROPOSED**, not deployed or approved. See the review-ready
+They are not completed recommendation/chat features. SWE-165 implements
+[public Backend catalog integration](backend-catalog-integration.md) in the internal
+agent. The future internal Backend API/chat profile remains **PROPOSED**. See the review-ready
 [SWE-69 Agent–Backend Integration Contract](backend-api-contract-proposal.md), its
 [draft schema](schemas/backend-api-contract-proposal.schema.json), and the
 [Decision Needed From Backend Team table](backend-api-contract-proposal.md#8-decision-needed-from-backend-team).
@@ -89,19 +90,19 @@ product search.
 SWE-66 adds an independent `ShoppingAgent` core that can call the SWE-65 LLM
 interface. Its internal `AgentTurn`/`AgentResult` models are not new HTTP payloads.
 The core uses caller-supplied request-local history, echoes an opaque session ID
-without storing it, and returns advisory text explicitly labeled as unverified
-because catalog access is unavailable. Its exception hierarchy is not mapped to
+without storing it, and returns advisory text with request-local catalog evidence
+when Backend tools are used; without tools it remains unverified. Its exception hierarchy is not mapped to
 HTTP responses yet. Enabling generated answers requires a separate agreement on
 success/error shapes, authorized history and grounding; the current route, schema,
 fixed message and status remain unchanged.
 
 SWE-68 adds internal read-only `search_products` and `get_product_details` tool
 definitions and a bounded tool-calling loop. These are not new HTTP routes or
-confirmed Backend endpoints. The default source is unavailable; test sources are
-explicitly fake. Product DTOs, filters, price/currency representation and error
-codes are internal contracts only. Real integration remains blocked on SWE-69
-approval of Backend paths, authorization, payloads and failure semantics. See
-[tool interfaces](tools.md) for the proposed provider mapping boundary.
+HTTP routes. The no-provider default source is unavailable; test sources can be
+explicitly fake. SWE-165 adds Backend provenance and implements mappings for actual
+public catalog endpoints, including exact VND, UUIDs, numbered pages and variants.
+See [tool interfaces](tools.md) and [implemented integration](backend-catalog-integration.md).
+The proposed internal API and chat HTTP profile still require approval.
 
 ## Validation and error boundary — CURRENT
 

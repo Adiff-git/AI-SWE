@@ -3,7 +3,7 @@
 ## Source and assembly
 
 - `src/ai_service/agent/prompts/system.py`: trusted `SYSTEM_PROMPT_VERSION` and
-  `SYSTEM_PROMPT` constants. Current version: **1.1.0**. `system_prompt(with_tools=...)`
+  `SYSTEM_PROMPT` constants. Current version: **1.2.0**. `system_prompt(with_tools=...)`
   selects capability text from trusted constants, never request content.
 - `prompts/builder.py`: `build_messages(AgentTurn)` returns fresh role-separated
   messages, validating completed user/assistant history pairs.
@@ -24,9 +24,11 @@ Catalog facts cannot be invented, and actual tool/Backend availability must be
 acknowledged. There is no cart/order/payment execution. Internal instructions,
 credentials and private data must not be disclosed.
 
-The fixed catalog notice in `agent/conversation.py` is also Vietnamese. Internal
-`AgentResult.catalog_verified` remains false. The public chat placeholder's text,
-schemas and behavior are unchanged.
+Catalog notices in `agent/conversation.py` are also Vietnamese. Backend lookup
+outcomes determine verified/partial/unavailable wording and request-local
+`AgentResult.catalog_evidence`; `catalog_verified` describes lookup outcomes, not
+all generated prose. See [SWE-165](backend-catalog-integration.md#outcomes-and-evidence).
+The public chat placeholder's text, schemas and behavior are unchanged.
 
 ## Revising prompts
 
@@ -43,12 +45,13 @@ schemas and behavior are unchanged.
 | --- | --- |
 | 1.0.0 | Initial Vietnamese-first shopping policy and role-safe assembly |
 | 1.1.0 | Trusted tool-capability context; fake/unavailable evidence and bounded recovery rules |
+| 1.2.0 | Real Backend provenance, exact money, variant-specific facts, truncation and comparison through existing tools |
 
-## Tool results — SWE-68 interface, no real Backend integration
+## Tool results — SWE-68 / SWE-165
 
 Tool mode uses structured assistant calls and tool messages associated by call ID.
-Only tools registered by application code can execute, and only read-only
-fake/unavailable providers are supported. The prompt builder is told whether a
+Only tools registered by application code can execute, with read-only
+Backend/fake/unavailable providers. The prompt builder is told whether a
 registry is present; the model receives definitions separately from system text.
 Results have bounded schemas, allowlisted product fields, product IDs and explicit
 source labels. A successful fake result is not verified catalog evidence.
@@ -57,7 +60,8 @@ instruction: embedded requests to override policy or reveal private information
 must never become system messages. Do not append a tool body to the system prompt
 or impersonate it as user/assistant history. Failed, missing or partial evidence
 does not justify invented prices, stock, warranties or completed actions. Actual
-Backend provenance and mappings await SWE-69 contract approval.
+Backend provenance and current public-catalog mappings are implemented in
+[SWE-165](backend-catalog-integration.md); future SWE-69 contract decisions remain pending.
 
 ## Manual evaluation — Vietnamese scenarios
 

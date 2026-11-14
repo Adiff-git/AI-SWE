@@ -2,9 +2,17 @@
 
 from __future__ import annotations
 
+from decimal import Decimal
 from typing import Annotated, Literal
 
-from pydantic import BaseModel, ConfigDict, Field, StringConstraints, model_validator
+from pydantic import (
+    BaseModel,
+    BeforeValidator,
+    ConfigDict,
+    Field,
+    StringConstraints,
+    model_validator,
+)
 
 type Identifier = Annotated[
     str,
@@ -19,7 +27,24 @@ type ShortText = Annotated[
     ),
 ]
 type Currency = Annotated[str, StringConstraints(pattern=r"^[A-Z]{3}$")]
-type ToolSource = Literal["fake", "unavailable"]
+type ToolSource = Literal["backend", "fake", "unavailable"]
+
+
+def _decimal(value: object) -> Decimal:
+    # JSON numbers are parsed as Decimal by the dispatcher. Never round-trip money
+    # through a binary float, including for directly injected providers/callers.
+    if isinstance(value, bool) or not isinstance(value, (str, int, Decimal)):
+        raise ValueError("Money requires an exact decimal string or number")
+    try:
+        return Decimal(value)
+    except ArithmeticError:
+        raise ValueError("Invalid decimal") from None
+
+
+type Money = Annotated[Decimal, BeforeValidator(_decimal)]
+type ImageURL = Annotated[
+    str, StringConstraints(max_length=2048, pattern=r"^https?://[^\s\x00-\x1f\x7f]+$")
+]
 
 
 class SearchProductsArgs(BaseModel):
@@ -27,8 +52,8 @@ class SearchProductsArgs(BaseModel):
 
     query: ShortText
     category: Identifier | None = None
-    min_price: float | None = Field(default=None, ge=0, le=1e15, allow_inf_nan=False)
-    max_price: float | None = Field(default=None, ge=0, le=1e15, allow_inf_nan=False)
+    min_price: Money | None = Field(default=None, ge=0, le=Decimal("1e15"), allow_inf_nan=False)
+    max_price: Money | None = Field(default=None, ge=0, le=Decimal("1e15"), allow_inf_nan=False)
     currency: Currency | None = None
 
     @model_validator(mode="after")
@@ -51,12 +76,23 @@ class ProductDetailsArgs(BaseModel):
 
 
 class Price(BaseModel):
-    """Read-only currency units, not a payment/monetary-arithmetic contract."""
+    """Exact currency units, serialized as decimal strings; not a payment contract."""
 
     model_config = ConfigDict(strict=True, extra="ignore", frozen=True)
 
-    amount: float = Field(ge=0, le=1e15, allow_inf_nan=False)
+    amount: Money = Field(ge=0, lt=Decimal("1e30"), allow_inf_nan=False)
     currency: Currency
+
+
+class ProductVariant(BaseModel):
+    model_config = ConfigDict(strict=True, extra="ignore", frozen=True)
+
+    variant_id: Identifier
+    sku: ShortText
+    options: dict[Identifier, ShortText] = Field(default_factory=dict, max_length=10)
+    price: Price
+    specifications: dict[Identifier, ShortText] = Field(default_factory=dict, max_length=10)
+    specifications_truncated: bool = False
 
 
 class Product(BaseModel):
@@ -67,8 +103,16 @@ class Product(BaseModel):
     product_id: Identifier
     name: ShortText
     category: Identifier | None = None
+    category_name: ShortText | None = None
     price: Price | None = None
+    representative_variant_id: Identifier | None = None
+    primary_image_url: ImageURL | None = None
+    images: list[ImageURL] = Field(default_factory=list, max_length=5)
+    images_truncated: bool = False
     specifications: dict[Identifier, ShortText] = Field(default_factory=dict, max_length=10)
+    specifications_truncated: bool = False
+    variants: list[ProductVariant] = Field(default_factory=list, max_length=5)
+    variants_truncated: bool = False
 
 
 class ProductSearchData(BaseModel):
@@ -103,6 +147,8 @@ class ToolResult(BaseModel):
             "tool_error",
             "invalid_result",
             "result_too_large",
+            "unsupported_filter",
+            "backend_unavailable",
         ]
         | None
     ) = None

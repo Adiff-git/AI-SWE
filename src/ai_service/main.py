@@ -9,6 +9,8 @@ from fastapi import FastAPI, HTTPException
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
+from ai_service.agent.orchestrator import ShoppingAgent
+from ai_service.agent.tools import BackendProductProvider, create_product_tools
 from ai_service.api.v1.router import router
 from ai_service.core.config import get_settings
 from ai_service.core.logging import configure_logging
@@ -31,6 +33,9 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     ):
         app.state.backend_client = backend_client
         app.state.llm_client = llm_client
+        app.state.shopping_agent = ShoppingAgent(
+            llm_client, tools=create_product_tools(BackendProductProvider(backend_client))
+        )
         logger.info("Starting %s (environment=%s)", settings.app_name, settings.app_env)
         yield
     logger.info("Stopped %s", settings.app_name)

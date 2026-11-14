@@ -1,5 +1,12 @@
 # Agent–Backend Integration Contract — SWE-69
 
+> **SWE-165 implementation update:** the existing public Backend catalog API is now
+> integrated through `BackendProductProvider`. See the
+> [implemented contract, inspected Backend revision, schema differences and remaining decisions](backend-catalog-integration.md).
+> This does not approve the proposed internal routes, service authentication,
+> availability/freshness or generated-chat HTTP profile below. Examples/schema in
+> this proposal continue to describe a future target, not the public catalog wire format.
+
 > Recommendation update: protected hybrid inference and its security/contract are
 > documented in [recommendation.md](recommendation.md). Earlier recommendation design
 > statements below describe the legacy placeholder/proposal and are superseded for the MVP.
@@ -28,7 +35,7 @@ implementation and coordinated rollout replace them.
 | Sessions | A supplied ID is echoed; no creation, ownership lookup, authentication or persistence |
 | Authentication/correlation | No service-auth enforcement or request-ID propagation implemented by the application |
 | AI → Backend client | Shared HTTPX async pool, configured base URL, 10-second default per-operation timeout, raises on non-2xx including redirects; no automatic retry, no concrete endpoint methods |
-| Agent tools | Internal `search_products`/`get_product_details` interfaces; sources only `fake`/`unavailable`; default `not_available`; `catalog_verified=False` |
+| Agent tools | `search_products`/`get_product_details` support `backend`/`fake`/`unavailable`; SWE-165 wires actual public catalog GETs in the application-owned agent; no-provider default remains `not_available`; verification follows request-local evidence |
 
 CURRENT chat request and response (HTTP 200):
 
@@ -154,8 +161,10 @@ No implementation of this future HTTP profile is included in SWE-69.
 
 ## 4. AI → Backend catalog — PROPOSED, not deployed APIs
 
-Both paths below are illustrative **PROPOSED** Backend routes relative to the
-agreed Backend base URL. Do not derive deployed support from the names. API URL
+Both internal paths below are illustrative **PROPOSED** Backend routes relative to the
+agreed Backend base URL. SWE-165 uses the separate existing public `/api/products`
+routes documented in [the implementation](backend-catalog-integration.md).
+Do not derive deployed support for these internal routes from the names. API URL
 version is proposed as `v1`; final routes/base URLs remain D01.
 
 ### PROPOSED search/filter
@@ -467,19 +476,21 @@ response. The existing tool-loop behavior alone does not implement this HTTP pol
 
 ## 8. Decision Needed From Backend Team
 
-Every row is **Pending**. Suggested values are for review, not approval or deployed
-support. Backend and AI must record accepted revisions before live implementation.
+Every row remains **Pending approval of this future proposal**. SWE-165 records
+actual public API behavior and implements its adapter; that is not approval of
+the draft recommendations. See its [remaining decisions](backend-catalog-integration.md#team-decisions-still-pending).
+Backend and AI must record accepted revisions before implementing the future profile.
 
 | ID | Decision needed | Draft recommendation | Owner / impact if unresolved |
 | --- | --- | --- | --- |
-| D01 | Base URLs, method/path and API version | Proposed internal catalog `v1` routes above | Backend + AI / cannot implement endpoint mapping |
+| D01 | Base URLs, method/path and API version | Proposed internal catalog `v1` routes above | Backend + AI / future internal route and deployment agreement; SWE-165 maps existing public paths |
 | D02 | Service auth, transport, scopes, credential lifecycle and delegated subject | Separate audience-bound service credentials; no self-declared user auth | Backend + platform + AI / cannot authenticate live calls |
 | D03 | Product/variant IDs and allowed identifier syntax | Opaque case-sensitive IDs; decide model vs sellable SKU | Backend / ambiguous price/stock association |
 | D04 | Visibility and missing/hidden records | Filter search; details 404 for invisible/missing; scope denial 403 | Backend / disclosure and error-mapping ambiguity |
 | D05 | Query/category/filter semantics and ordering | Inclusive bounds, unknown category gives empty match, deterministic Backend order | Backend / search results cannot be interpreted reliably |
-| D06 | Price amount/currency, precision, tax and promotions | Decimal strings; VND, zero fractional digits for MVP; explicit currency filters | Backend + AI / float DTO is not a final money contract |
+| D06 | Price amount/currency, precision, tax and promotions | Decimal strings; VND, zero fractional digits for MVP; explicit currency filters | Backend + AI / SWE-165 preserves exact current VND; future currency/tax/promotion semantics remain pending |
 | D07 | Availability states, freshness SLA and stale-data treatment | Four states with observation time; unknown is not in stock | Backend / unsupported live-availability claims |
-| D08 | Specification names/units and approved product fields | Bounded allowlist; specs in details; no private fields | Backend + AI / schema/sanitization mapping blocked |
+| D08 | Specification names/units and approved product fields | Bounded allowlist; specs in details; no private fields | Backend + AI / SWE-165 maps versioned public specs; expanded fields and projection priorities need agreement |
 | D09 | Cursor lifecycle, ordering, page bounds and catalog changes | One AI page, limit ≤5, explicit next cursor, 422 expired cursor | Backend + AI / provider pagination DTO needs agreement |
 | D10 | Future chat fields/statuses, versioning and coordinated rollout | Explicit future profile, preserve CURRENT until deployed replacement | Backend + AI / existing consumers cannot assume generated replies |
 | D11 | Authorized history, session ownership, retention, logs and external-LLM data policy | Backend supplies only permitted history; no AI persistence or raw content logs | Backend + AI / personalized context cannot be enabled |
@@ -490,18 +501,18 @@ support. Backend and AI must record accepted revisions before live implementatio
 
 ## 9. Implementation gaps and short integration test plan
 
-### Gaps — not changed by this documentation
+### Gaps — updated for SWE-165; future profile still unapproved
 
 | CURRENT implementation gap | Work needed only after approval |
 | --- | --- |
 | Public chat returns placeholder | Wire approved HTTP request/result/error profile to the agent and coordinate consumers |
 | No service auth or correlation middleware | Implement agreed authentication, permissions, request-ID propagation and safe error handling |
-| Internal tool money uses floats | Review DTO and precision-preserving conversion for approved decimal-string money; never use float for payments |
-| Tool DTO lacks availability/provenance/time | Introduce approved fields and Backend source; current source validation rejects `backend` |
-| Search provider returns only a product sequence | Extend provider result to preserve page/next-cursor and honest `truncated` semantics; do not fabricate an extra product to signal another page |
-| Tool errors can yield advisory text; final agent result omits dependency outcomes | Carry required-lookup outcome/evidence to HTTP mapping so timeout cannot become 200 success |
-| `catalog_verified=False` and unavailable prompt/notice | Review live-grounding semantics and prompt capability wording; do not flip a boolean merely because one tool succeeded |
-| Backend client has no route/auth methods and per-operation timeout only | Implement approved fixed paths, strict response validation and total deadlines |
+| SWE-165 tool money now uses exact Decimal/string serialization | Agree future currency/tax/promotion profile; no payment capability |
+| SWE-165 includes Backend provenance; actual APIs lack availability/time | Agree future availability/freshness fields; no synthetic observations |
+| SWE-165 preserves numbered-page truncation in structured search data | Any future cursor contract needs separate implementation; no automatic pagination |
+| SWE-165 final result retains request-local dependency evidence | Agree required-lookup HTTP mapping before generated chat rollout |
+| SWE-165 prompt/notice distinguishes Backend, partial and unavailable outcomes | Lookup verification is not generated-prose certification; future HTTP grounding policy remains pending |
+| SWE-165 uses shared client with fixed public paths, validation and enclosing tool/agent deadlines | Agree future service-auth/internal paths and revised coordinated deadlines |
 
 After both teams approve, use deterministic provider/LLM mocks plus a separate
 agreed Backend staging environment. The minimum integration matrix is:

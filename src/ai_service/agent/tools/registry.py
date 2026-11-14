@@ -5,10 +5,16 @@ import json
 import math
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
+from decimal import Decimal
 
 from pydantic import BaseModel, ValidationError
 
-from ai_service.agent.tools.provider import ProductProviderUnavailable
+from ai_service.agent.tools.provider import (
+    BackendProductUnavailable,
+    InvalidProductPayload,
+    ProductProviderUnavailable,
+    UnsupportedProductFilter,
+)
 from ai_service.agent.tools.schemas import ToolData, ToolResult, ToolSource
 from ai_service.integrations.llm import ToolCall, ToolDefinition
 
@@ -49,7 +55,10 @@ class Tool[Arguments: BaseModel]:
     async def invoke(self, raw: str) -> ToolData | None:
         try:
             value = json.loads(
-                raw, parse_constant=_reject_constant, object_pairs_hook=_unique_object
+                raw,
+                parse_float=Decimal,
+                parse_constant=_reject_constant,
+                object_pairs_hook=_unique_object,
             )
             if not isinstance(value, dict):
                 raise ValueError("Arguments must be an object")
@@ -70,8 +79,8 @@ class ToolRegistry:
         definition = tool.definition()
         if definition.name in self._tools:
             raise ValueError("Duplicate tool name.")
-        if tool.read_only is not True or tool.source not in ("fake", "unavailable"):
-            raise ValueError("Only read-only fake/unavailable product tools are supported.")
+        if tool.read_only is not True or tool.source not in ("backend", "fake", "unavailable"):
+            raise ValueError("Only read-only backend/fake/unavailable product tools are supported.")
         if len(json.dumps(definition.model_dump(), ensure_ascii=False).encode("utf-8")) > 8192:
             raise ValueError("Tool definition exceeds the byte budget.")
         self._tools[definition.name] = tool
@@ -103,9 +112,13 @@ class ToolRegistry:
             return ToolResult(**base, status="error", error_code="invalid_arguments")
         except ProductProviderUnavailable:
             return ToolResult(**base, status="not_available")
+        except UnsupportedProductFilter:
+            return ToolResult(**base, status="error", error_code="unsupported_filter")
+        except BackendProductUnavailable:
+            return ToolResult(**base, status="error", error_code="backend_unavailable")
         except TimeoutError:
             return ToolResult(**base, status="error", error_code="timeout")
-        except ValidationError:
+        except (ValidationError, InvalidProductPayload):
             return ToolResult(**base, status="error", error_code="invalid_result")
         except Exception:
             return ToolResult(**base, status="error", error_code="tool_error")

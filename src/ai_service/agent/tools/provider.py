@@ -1,26 +1,43 @@
-"""Injectable product access; no Backend paths or network I/O are assumed."""
+"""Injectable read-only product access and safe provider failure categories."""
 
 from collections.abc import Sequence
 from typing import Protocol
 
-from ai_service.agent.tools.schemas import Product, SearchProductsArgs, ToolSource
+from ai_service.agent.tools.schemas import (
+    Product,
+    ProductSearchData,
+    SearchProductsArgs,
+    ToolSource,
+)
 
 
 class ProductProvider(Protocol):
     @property
     def source(self) -> ToolSource:
-        """Current sources are explicitly fake or unavailable, never live Backend."""
+        """Provenance of the configured provider, not a success guarantee."""
         ...
 
     async def search_products(
         self, arguments: SearchProductsArgs, *, limit: int
-    ) -> Sequence[Product]: ...
+    ) -> Sequence[Product] | ProductSearchData: ...
 
     async def get_product_details(self, product_id: str) -> Product | None: ...
 
 
 class ProductProviderUnavailable(Exception):
-    """No approved product integration is available."""
+    """No product integration is configured."""
+
+
+class InvalidProductPayload(ValueError):
+    """The upstream response does not conform to the supported catalog contract."""
+
+
+class UnsupportedProductFilter(ValueError):
+    """A filter cannot be represented faithfully by this provider."""
+
+
+class BackendProductUnavailable(Exception):
+    """Backend transport or HTTP failure, without upstream error text."""
 
 
 class UnavailableProductProvider:

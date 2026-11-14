@@ -27,6 +27,8 @@ def create_product_tools(
 
     async def search(arguments: SearchProductsArgs) -> ProductSearchData:
         products = await provider.search_products(arguments, limit=5)
+        if isinstance(products, ProductSearchData):
+            return ProductSearchData.model_validate(products.model_dump(warnings=False))
         if not isinstance(products, Sequence) or isinstance(products, (str, bytes)):
             raise ValueError("Invalid product search result")
         return ProductSearchData(
@@ -47,7 +49,8 @@ def create_product_tools(
             name="search_products",
             description=(
                 "Tìm sản phẩm theo nhu cầu và bộ lọc giá có tiền tệ rõ ràng. "
-                "Nguồn hiện tại chỉ là fake hoặc chưa khả dụng, không phải catalog thật."
+                "Kiểm tra source và status: chỉ source=backend với status=ok là dữ liệu Backend. "
+                "category là ID danh mục; không tự suy đoán ID hoặc tiền tệ."
             ),
             arguments=SearchProductsArgs,
             handler=search,

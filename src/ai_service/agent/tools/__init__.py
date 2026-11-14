@@ -1,5 +1,6 @@
-"""Typed read-only product tools, with no assumed Backend integration."""
+"""Typed read-only product tools and injectable Backend catalog integration."""
 
+from ai_service.agent.tools.backend import BackendProductProvider
 from ai_service.agent.tools.products import create_product_tools
 from ai_service.agent.tools.provider import (
     ProductProvider,
@@ -18,6 +19,7 @@ from ai_service.agent.tools.schemas import (
 )
 
 __all__ = [
+    "BackendProductProvider",
     "Price",
     "Product",
     "ProductDetailsArgs",

@@ -1,4 +1,4 @@
-"""Bounded text/tool turns, with caller-owned history and no Backend operations."""
+"""Bounded text/tool turns with caller-owned history and read-only tool evidence."""
 
 import asyncio
 import json
@@ -7,7 +7,13 @@ from typing import cast
 
 from pydantic import ValidationError
 
-from ai_service.agent.conversation import CATALOG_NOTICE, AgentResult, AgentTurn
+from ai_service.agent.conversation import (
+    CATALOG_NOTICE,
+    PARTIAL_CATALOG_NOTICE,
+    VERIFIED_CATALOG_NOTICE,
+    AgentResult,
+    AgentTurn,
+)
 from ai_service.agent.exceptions import (
     AgentCapabilityError,
     AgentInputError,
@@ -18,6 +24,7 @@ from ai_service.agent.exceptions import (
 )
 from ai_service.agent.prompts import build_messages
 from ai_service.agent.tools import ToolRegistry
+from ai_service.agent.tools.schemas import ToolResult
 from ai_service.integrations.llm import (
     AssistantMessage,
     LLMClient,
@@ -103,6 +110,7 @@ class ShoppingAgent:
         llm = cast(ToolCallingLLMClient, self._llm)
         definitions = registry.definitions()
         seen_ids: set[str] = set()
+        evidence: list[ToolResult] = []
         for round_index in range(MAX_TOOL_ROUNDS + 1):
             # Count structured IDs, arguments and schemas as well as text in tool mode.
             context = {
@@ -125,9 +133,24 @@ class ShoppingAgent:
             if not calls:
                 if validated.finish_reason not in (None, "stop"):
                     raise AgentReplyError("The LLM did not finish a complete text answer.")
+                verified = bool(evidence) and all(
+                    item.source == "backend" and item.status in ("ok", "not_found")
+                    for item in evidence
+                )
+                has_backend = any(
+                    item.source == "backend" and item.status in ("ok", "not_found")
+                    for item in evidence
+                )
+                notice = (
+                    VERIFIED_CATALOG_NOTICE
+                    if verified
+                    else PARTIAL_CATALOG_NOTICE if has_backend else CATALOG_NOTICE
+                )
                 return AgentResult(
-                    answer=f"{CATALOG_NOTICE}\n\n{validated.message.content}",
+                    answer=f"{notice}\n\n{validated.message.content}",
                     session_id=turn.session_id,
+                    catalog_verified=verified,
+                    catalog_evidence=tuple(evidence),
                 )
             if validated.finish_reason != "tool_calls":
                 raise AgentReplyError("The LLM returned inconsistent tool calls.")
@@ -143,6 +166,7 @@ class ShoppingAgent:
             messages.append(validated.message)
             for call in calls:
                 result = await registry.execute(call)
+                evidence.append(result)
                 messages.append(
                     ToolResultMessage(tool_call_id=call.id, content=result.model_dump_json())
                 )
